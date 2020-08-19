@@ -45,7 +45,7 @@ public class AppRestController {
                                      @RequestParam String password){
         User user = userService.findByUsername(username);
         if (user != null) throw new ResponseStatusException(HttpStatus.CONFLICT,"Such username is already exists");
-        assert false;
+        user = new User();
         user.setUsername(username);
         user.setPassword(password);
         userService.save(user);

@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.service.SecurityService;
 import com.example.demo.service.UserService;
@@ -11,9 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Controller for {@link User}'s pages.
@@ -53,7 +49,6 @@ public class WebController {
         }else{
             model.addAttribute("name",loggedInUser.getName());
             model.addAttribute("users",userService.getAllUsers());
-            System.out.println(model.getAttribute("users"));
             return "home";
         }
     }
@@ -72,12 +67,9 @@ public class WebController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult,Model model){
-        System.out.println("registration handler");
         userValidator.validate(userForm, bindingResult);
 
         if(bindingResult.hasErrors()){
-            System.out.println(bindingResult.getFieldError().getCode());
-            System.out.println(bindingResult.getFieldError().toString());
             return "registration";
         }
         userService.save(userForm);
