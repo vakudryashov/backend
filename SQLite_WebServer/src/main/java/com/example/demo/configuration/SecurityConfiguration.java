@@ -2,10 +2,12 @@ package com.example.demo.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
@@ -21,4 +23,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         delPasswordEncoder.setDefaultPasswordEncoderForMatches(bcryptPasswordEncoder);
         return delPasswordEncoder;
     }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/admin","/home").authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login");
+    }
+/*    @Bean
+    public AuthenticationManager authenticationManager(){
+        return new AuthenticationManager() {
+            @Override
+            public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+                System.out.println("authentication: ");
+                System.out.println(authentication);
+
+                if (authentication.isAuthenticated()) return authentication;
+                return null;
+            }
+        };
+    }*/
 }

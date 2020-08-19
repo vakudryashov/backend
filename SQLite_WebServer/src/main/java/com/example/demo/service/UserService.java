@@ -2,6 +2,9 @@ package com.example.demo.service;
 
 import com.example.demo.model.User;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
 * Service class for {@link User}
  *
@@ -11,5 +14,7 @@ import com.example.demo.model.User;
 
 public interface UserService {
     void save(User user);
+    void delete(User user);
     User findByUsername(String username);
+    List<User> getAllUsers();
 }

@@ -31,6 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.findByUsername(username);
+        if (user == null) throw new UsernameNotFoundException("Login or password are incorrect");
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         for (Role role :user.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));

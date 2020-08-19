@@ -11,5 +11,5 @@ import org.springframework.security.core.Authentication;
 
 public interface SecurityService {
     Authentication findLoggedInUser();
- //   void autoLogin(String userName, String password);
+    void autoLogin(String userName, String password);
 }

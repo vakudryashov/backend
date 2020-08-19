@@ -6,11 +6,11 @@ import com.example.demo.dao.UserDao;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -42,8 +42,17 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void delete(User user) {
+        userDao.delete(user);
+    }
+
+    @Override
     public User findByUsername(String username) {
-        System.out.println(username);
         return userDao.findByUsername(username);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userDao.findAll();
     }
 }
