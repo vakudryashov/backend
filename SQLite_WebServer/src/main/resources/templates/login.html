@@ -35,7 +35,7 @@
 </nav>
 <div class="'container">
     <form action="#" th:action="@{/login}" th:object="${userForm}" method="post" class="form-signin">
-        <h2 class="form-signin-heading">Аутентификация:</h2>
+        <h2 class="form-signin-heading">Вход:</h2>
         <p>
             <label for="username" class="sr-only">Username</label>
             <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
@@ -45,7 +45,7 @@
             <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
         </p>
         <input name="_csrf" type="hidden" th:value="${_csrf.token}"/>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
     </form>
 </div>
 

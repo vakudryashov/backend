@@ -21,6 +21,9 @@ public class User {
     @Transient
     private String confirmPassword;
 
+    @Column(name = "fullname")
+    private String fullname;
+
     @ManyToMany
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -51,8 +54,20 @@ public class User {
         this.password = password;
     }
 
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
     public String getConfirmPassword() {
         return confirmPassword;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public Set<Role> getRoles() {

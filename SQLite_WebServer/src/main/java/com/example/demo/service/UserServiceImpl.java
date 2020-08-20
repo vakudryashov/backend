@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.configuration.DefaultRoles;
 import com.example.demo.configuration.SecurityConfiguration;
 import com.example.demo.dao.RoleDao;
 import com.example.demo.dao.UserDao;
@@ -34,9 +35,20 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void save(User user) {
+        String defaultRoleName = DefaultRoles.ROLE_USER.name();
+        if (roleDao.count() == 0){
+            Role role = new Role();
+            role.setName(DefaultRoles.ROLE_ADMIN.name());
+            roleDao.save(role);
+            role = new Role();
+            role.setName(DefaultRoles.ROLE_USER.name());
+            roleDao.save(role);
+            defaultRoleName = DefaultRoles.ROLE_ADMIN.name();
+        }
         user.setPassword(securityConfiguration.getPasswordEncoder().encode(user.getPassword()));
         Set<Role> roles = new HashSet<>();
-        roles.add(roleDao.getOne(1L));
+
+        roles.add(roleDao.findByName(defaultRoleName));
         user.setRoles(roles);
         userDao.save(user);
     }
