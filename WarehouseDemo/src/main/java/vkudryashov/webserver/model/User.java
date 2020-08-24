@@ -1,6 +1,9 @@
 package vkudryashov.webserver.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -15,10 +18,12 @@ public class User {
     @Column(name = "username")
     private String username;
 
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
     @Transient
+    @JsonIgnore
     private String confirmPassword;
 
     @Column(name = "fullname")

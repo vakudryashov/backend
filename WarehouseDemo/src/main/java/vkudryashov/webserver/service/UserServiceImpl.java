@@ -34,21 +34,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void save(User user) {
-        String defaultRoleName = DefaultRoles.ROLE_USER.name();
-        if (roleDao.count() == 0){
-            Role role = new Role();
-            role.setName(DefaultRoles.ROLE_ADMIN.name());
-            roleDao.save(role);
-            role = new Role();
-            role.setName(DefaultRoles.ROLE_USER.name());
-            roleDao.save(role);
-            defaultRoleName = DefaultRoles.ROLE_ADMIN.name();
+        if (user.getConfirmPassword() != null && user.getConfirmPassword().equals(user.getPassword())) {
+            user.setPassword(securityConfiguration.getPasswordEncoder().encode(user.getPassword()));
         }
-        user.setPassword(securityConfiguration.getPasswordEncoder().encode(user.getPassword()));
-        Set<Role> roles = new HashSet<>();
-
-        roles.add(roleDao.findByName(defaultRoleName));
-        user.setRoles(roles);
         userDao.save(user);
     }
 
@@ -63,7 +51,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<User> findAll() {
         return userDao.findAll();
     }
 }
