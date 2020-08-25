@@ -25,12 +25,12 @@ import java.util.Set;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    private UserDao userDao;
+    private UserService userService;
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.findByUsername(username);
+        User user = userService.findByUsername(username);
         if (user == null) throw new UsernameNotFoundException("Login or password are incorrect");
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         for (Role role :user.getRoles()) {

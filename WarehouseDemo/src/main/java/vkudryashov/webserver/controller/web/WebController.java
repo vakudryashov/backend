@@ -1,4 +1,4 @@
-package vkudryashov.webserver.controller;
+package vkudryashov.webserver.controller.web;
 
 import vkudryashov.webserver.model.User;
 import vkudryashov.webserver.service.SecurityService;
@@ -48,7 +48,7 @@ public class WebController {
             return "redirect:/login";
         }else{
             model.addAttribute("name",loggedInUser.getName());
-            model.addAttribute("users",userService.getAllUsers());
+            model.addAttribute("users",userService.findAll());
             return "home";
         }
     }
