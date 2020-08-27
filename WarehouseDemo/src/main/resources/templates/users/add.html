@@ -105,7 +105,7 @@
                 <div id="roles"
                      th:class="'form-check '+${#fields.hasErrors('roleNames') ? 'is-invalid' : 'is-valid'}">
                     <div th:each="role : ${roles}">
-                        <input class="form-check-input" type="checkbox" th:id="'role_'+${role.id}" th:field="*{roleNames}" th:value=${role.name}>
+                        <input class="form-check-input" type="checkbox" th:id="'role_'+${role.id}" name="roleNames" th:value=${role.name}>
                         <label class="form-check-label" th:for="'role_'+${role.id}" th:text="${role.name}"></label>
                     </div>
                 </div>
@@ -113,8 +113,8 @@
                      th:if="${#fields.hasErrors('roleNames')}" th:errors="*{roleNames}">
                 </div>
             </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Создать</button>
-            <a href="/content/control/users" class="btn btn-lg btn-secondary btn-block">Отмена</a>
+            <button class="btn btn-success btn-block" type="submit">Сохранить</button>
+            <a href="/content/users/find" class="btn btn-secondary btn-block">Назад</a>
         </form>
     </div>
 </div>

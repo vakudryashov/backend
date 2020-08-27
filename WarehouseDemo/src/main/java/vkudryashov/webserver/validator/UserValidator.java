@@ -55,6 +55,7 @@ public class UserValidator implements Validator {
             user.setRoles(new HashSet<>());
             errors.rejectValue("roleNames", "SelectNone.userForm.roleNames");
         }
+        skip.clear();
     }
 
     public void setSkip(Set<String> skip) {
