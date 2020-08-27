@@ -1,6 +1,5 @@
 package vkudryashov.webserver.configuration;
 
-import org.hibernate.annotations.common.reflection.XMethod;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
