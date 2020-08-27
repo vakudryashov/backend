@@ -120,6 +120,9 @@ public class UserController {
         if (username.equals("Administrator")){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Этого пользователя удалять запрещено");
         }
+        if (!securityService.findLoggedInUser().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,"You do not have permission to change another account");
+        }
         User user = userService.findByUsername(username);
         if(user == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Username not found");
@@ -127,7 +130,7 @@ public class UserController {
         long id = user.getId();
         userService.delete(user);
         if (userService.findByUsername(username) == null) {
-            return String.format("{\"id\": %d, \"username\": \"&S\",\"deleted\": true}", id, username);
+            return String.format("{\"id\": %d, \"username\": \"%s\",\"deleted\": true}", id, username);
         }else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("User %s has not been deleted", user));
         }

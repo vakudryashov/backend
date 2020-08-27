@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/signin.css">
 
-    <title>редактирование профиля</title>
+    <title>Отправление товара</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -27,11 +27,18 @@
 
 <div class="d-flex align-items-center">
     <div class="container w-50">
-        <form action="/content/users/edit" th:object="${userForm}" method="post" class="form-signin">
+        <form th:action="${path}" th:object="${userForm}" method="post" class="form-signin">
     <!--        Логин       -->
             <div class="form-group">
                 <label for="username" class="font-weight-bold">Логин:</label>
-                <input class="form-control" type="text" id="username" th:field="*{username}" readonly>
+                <input type="text"
+                       id="username"
+                       th:field="*{username}"
+                       th:class="'form-control '+${#fields.hasErrors('username') ? 'is-invalid' : 'is-valid'}"
+                       placeholder="Более 4 символов"
+                       required autofocus>
+                <div th:class="${#fields.hasErrors('username') ? 'invalid' : 'valid'}+'-feedback'"
+                     th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
             </div>
     <!--        Пароль -->
             <div class="form-group">
@@ -40,7 +47,8 @@
                        id="password"
                        th:field="*{password}"
                        th:class="'form-control '+${#fields.hasErrors('password') ? 'is-invalid' : 'is-valid'}"
-                       placeholder="От 8 до 32 символов">
+                       placeholder="От 8 до 32 символов"
+                       required>
                 <div th:class="${#fields.hasErrors('password') ? 'invalid' : 'valid'}+'-feedback'"
                      th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
             </div>
@@ -51,7 +59,8 @@
                        id="confirmPassword"
                        th:field="*{confirmPassword}"
                        th:class="'form-control '+${#fields.hasErrors('confirmPassword') ? 'is-invalid' : 'is-valid'}"
-                       placeholder="Идентично полю выше">
+                       placeholder="Идентично полю выше"
+                       required>
                 <div th:class="${#fields.hasErrors('confirmPassword') ? 'invalid' : 'valid'}+'-feedback'"
                      th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
             </div>
@@ -96,11 +105,7 @@
                 <div id="roles"
                      th:class="'form-check '+${#fields.hasErrors('roleNames') ? 'is-invalid' : 'is-valid'}">
                     <div th:each="role : ${roles}">
-                        <input class="form-check-input"
-                               type="checkbox"
-                               th:id="'role_'+${role.id}"
-                               name="roleNames"
-                               th:value="${role.name}" th:checked="${#sets.contains(userForm.roles,role)}"/>
+                        <input class="form-check-input" type="checkbox" th:id="'role_'+${role.id}" name="roleNames" th:value=${role.name}>
                         <label class="form-check-label" th:for="'role_'+${role.id}" th:text="${role.name}"></label>
                     </div>
                 </div>
@@ -109,10 +114,8 @@
                 </div>
             </div>
             <button class="btn btn-success btn-block" type="submit">Сохранить</button>
-            <a href="/content/users/find" class="btn btn-secondary btn-block">Назад</a>
+            <a href="/content/conrol/users" class="btn btn-secondary btn-block">Назад</a>
         </form>
-
-
     </div>
 </div>
 

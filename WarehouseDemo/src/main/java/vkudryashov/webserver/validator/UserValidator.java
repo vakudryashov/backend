@@ -51,9 +51,11 @@ public class UserValidator implements Validator {
                 errors.rejectValue("confirmPassword", "Different.userForm.password");
             }
         }
-        if (user.getRoleNames().length == 0){
+        if (user.getRoleNames() == null){
+            user.setRoles(new HashSet<>());
             errors.rejectValue("roleNames", "SelectNone.userForm.roleNames");
         }
+        skip.clear();
     }
 
     public void setSkip(Set<String> skip) {
