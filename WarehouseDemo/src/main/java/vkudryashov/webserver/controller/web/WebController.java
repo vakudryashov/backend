@@ -1,6 +1,8 @@
 package vkudryashov.webserver.controller.web;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.web.server.ResponseStatusException;
 import vkudryashov.webserver.model.User;
 import vkudryashov.webserver.service.RoleService;
 import vkudryashov.webserver.service.SecurityService;
@@ -57,7 +59,8 @@ public class WebController {
                        @PathVariable String page,
                        Model model){
         Authentication loggedInUser = securityService.findLoggedInUser();
-        model.addAttribute("name",loggedInUser.getName());
+        User user = userService.findByUsername(loggedInUser.getName());
+        model.addAttribute("name",user.getFullname());
         return String.format("%s/%s",group,page);
     }
 
@@ -85,7 +88,7 @@ public class WebController {
         userService.setRoles(userForm);
         userService.save(userForm);
         model.addAttribute("userForm",new User());
-        return "/users/add";
+        return "redirect:/content/users/find";
     }
 
     @GetMapping(value = {"/content/users/find"})
@@ -134,4 +137,23 @@ public class WebController {
         userService.save(userForm);
         return "redirect:/content/users/find";
     }
+
+    @GetMapping(value = {"/content/users/delete"})
+    public String userDelete(@RequestParam(value="username") String username,
+                             Model model){
+        if (username.equals("Administrator")){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Этого пользователя удалять запрещено");
+        }
+        Authentication loggedInUser = securityService.findLoggedInUser();
+        if (!loggedInUser.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,"У вас нет полномочий удалять профили пользователей");
+        }
+        User user = userService.findByUsername(username);
+        if(user == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Пользователь не найден");
+        }
+        userService.delete(user);
+        return "redirect:/content/users/find";
+    }
+
 }

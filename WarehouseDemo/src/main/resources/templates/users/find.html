@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/signin.css">
 
-    <title>Управление продуктами</title>
+    <title>Список пользователей</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -40,14 +40,15 @@
                     <th scope="col">Телефон</th>
                     <th scope="col">Роли</th>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
             <tr th:each="user : ${users}">
                 <td th:text="${user.username}" class="align-middle" ></td>
-                <td th:text="${user.fullname}" class="align-middle" ></td>
+                <td th:text="${user.fullname}" class="align-middle text-nowrap" ></td>
                 <td th:text="${user.email}" class="align-middle" ></td>
-                <td th:text="${user.phone}" class="align-middle" ></td>
+                <td th:text="${user.phone}" class="align-middle text-nowrap" ></td>
                 <td class="align-middle">
                     <ul class="list-unstyled mb-0">
                         <li th:each="role: ${user.roles}" th:text="${role.name}"></li>
@@ -58,6 +59,31 @@
                         <img src="/images/bootstrap-icons/pencil.svg" alt="" width="20" height="20" title="Edit"/>
                     </a>
                 </td>
+                <td class="align-middle" >
+                    <a th:href="'/content/users/delete?username='+${user.username}" title="Удалить" data-toggle="modal" th:data-target="'#exampleModal_'+${user.id}">
+                        &#10060;
+                    </a>
+                </td>
+                <div class="modal" tabindex="-1" role="dialog" th:id="'exampleModal_'+${user.id}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Подтверждение удаления пользователя</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p th:text="${user.username}+' - '+${user.fullname}"></p>
+                                <p>Вы уверены, что хотите продолжить?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                                <a th:href="'/content/users/delete?username='+${user.username}" class="btn btn-success">Продолжить</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </tr>
             <tr><td class="text-center" colspan="6">
                 <a href="/content/control/users" class="btn btn-secondary text-center w-25">Назад</a>
@@ -66,6 +92,7 @@
         </table>
     </div>
 </div>
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="/js/jquery-3.5.1.slim.min.js"></script>
