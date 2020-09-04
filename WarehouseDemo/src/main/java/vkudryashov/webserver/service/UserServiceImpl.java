@@ -1,8 +1,8 @@
 package vkudryashov.webserver.service;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
-import vkudryashov.webserver.configuration.SecurityConfiguration;
 import vkudryashov.webserver.dao.RoleDao;
 import vkudryashov.webserver.dao.UserDao;
 import vkudryashov.webserver.model.Role;
@@ -30,13 +30,13 @@ public class UserServiceImpl implements UserService{
     private RoleDao roleDao;
 
     @Autowired
-    private SecurityConfiguration securityConfiguration;
+    private PasswordEncoder pwdEncoder;
 
     @Override
     public void save(User user) {
         if (user.getConfirmPassword() != null){
             if (user.getConfirmPassword().equals(user.getPassword())) {
-                user.setPassword(securityConfiguration.getPasswordEncoder().encode(user.getPassword()));
+                user.setPassword(pwdEncoder.encode(user.getPassword()));
             }else{
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Значения полей password и confirmPassword должны быть идентичны");
             }

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Service;
-import vkudryashov.webserver.configuration.SecurityConfiguration;
 import vkudryashov.webserver.model.Role;
 import vkudryashov.webserver.model.User;
 
@@ -19,9 +18,6 @@ public class DataLoader implements ApplicationRunner {
 
     @Autowired
     private RoleService roleService;
-
-    @Autowired
-    private SecurityConfiguration securityConfiguration;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {

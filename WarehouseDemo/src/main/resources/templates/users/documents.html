@@ -24,13 +24,13 @@
         </ul>
     </div>
 </nav>
-<div class="container">
-    <div class="list-group">
+<div class="container-flux p-5">
+    <div class="list-group w-25 text-nowrap">
         <a href="/content/products/stat" class="list-group-item list-group-item-action">Статистика товаров</a>
         <a href="/content/products/new" class="list-group-item list-group-item-action">Создать новую номенклатуру</a>
         <a href="/content/products/archive" class="list-group-item list-group-item-action">Перевести номенклатуру в архив</a>
         <a href="/content/products/edit" class="list-group-item list-group-item-action">Изменить номенклатуру</a>
-        <a href="javascript:history.back()" class="list-group-item list-group-item-action">Назад</a>
+        <a th:href="@{'/content/control/users'}" class="btn btn-secondary">Назад</a>
     </div>
 </div>
 
