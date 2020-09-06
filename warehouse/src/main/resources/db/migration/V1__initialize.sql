@@ -23,11 +23,11 @@ insert into products_categories (product_id, category_id) values (1, 1), (2, 1),
 drop table if exists users;
 create table users (
   id                    bigserial,
-  phone                 VARCHAR(30) not null UNIQUE,
+  login                 VARCHAR(50) not null unique,
   password              VARCHAR(80) not null,
-  email                 VARCHAR(50) UNIQUE,
-  first_name            VARCHAR(50),
-  last_name             VARCHAR(50),
+  fullname              VARCHAR(255),
+  phone                 VARCHAR(30),
+  email                 VARCHAR(50),
   PRIMARY KEY (id)
 );
 
@@ -53,9 +53,11 @@ insert into roles (name)
 values
 ('ROLE_CUSTOMER'), ('ROLE_MANAGER'), ('ROLE_ADMIN');
 
-insert into users (phone, password, first_name, last_name, email)
+insert into users (login,password, fullname, phone, email)
 values
-('11111111','$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i','admin','admin','admin@gmail.com');
+--('11111111','$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i','admin','admin','admin@gmail.com');
+--пароль: admin
+('admin', '$2a$10$iIngXqEsF7aTmZ4IvPZs/enNAba47.OOq5OlqWpQM3JGdlrPCuHTS','Иванов Иван Иванович', '+7 (987) 654-32-10', 'admin@gmail.com');
 
 insert into users_roles (user_id, role_id)
 values
