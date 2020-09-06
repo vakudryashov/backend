@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface UsersRepository extends CrudRepository<User, Long> {
-    Optional<User> findOneByPhone(String phone);
-    boolean existsByPhone(String phone);
+    Optional<User> findOneByLogin(String login);
+    boolean existsByLogin(String login);
 }

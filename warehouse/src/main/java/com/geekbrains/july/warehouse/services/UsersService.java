@@ -32,14 +32,14 @@ public class UsersService implements UserDetailsService {
         this.rolesRepository = rolesRepository;
     }
 
-    public Optional<User> findByPhone(String phone) {
-        return usersRepository.findOneByPhone(phone);
+    public Optional<User> findByLogin(String login) {
+        return usersRepository.findOneByLogin(login);
     }
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = usersRepository.findOneByPhone(username).orElseThrow(() -> new UsernameNotFoundException("Invalid username or password"));
+        User user = usersRepository.findOneByLogin(username).orElseThrow(() -> new UsernameNotFoundException("Invalid username or password"));
         return new org.springframework.security.core.userdetails.User(user.getPhone(), user.getPassword(),
                 mapRolesToAuthorities(user.getRoles()));
     }
