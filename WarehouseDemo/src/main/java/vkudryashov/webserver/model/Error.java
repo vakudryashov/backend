@@ -1,7 +1,8 @@
 package vkudryashov.webserver.model;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
-
+@Getter
 public class Error {
     private String statusCode;
     private String exceptionMessage;
@@ -17,21 +18,5 @@ public class Error {
         } catch (NullPointerException ex){
             this.reasonPhrase = null;
         }
-    }
-
-    public String getStatusCode() {
-        return statusCode;
-    }
-
-    public String getExceptionMessage() {
-        return exceptionMessage;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public String getReasonPhrase() {
-        return reasonPhrase;
     }
 }

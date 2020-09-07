@@ -1,6 +1,6 @@
 package vkudryashov.webserver.service;
 
-import vkudryashov.webserver.configuration.SecurityConfiguration;
+import vkudryashov.webserver.configuration.RestSecurityConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SecurityServiceImpl implements SecurityService{
     @Autowired
-    private SecurityConfiguration securityConfiguration;
+    private RestSecurityConfiguration securityConfiguration;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -25,6 +25,6 @@ public class SecurityServiceImpl implements SecurityService{
     @Override
     public Authentication findLoggedInUser() {
         Authentication userDetails = SecurityContextHolder.getContext().getAuthentication();
-        return userDetails.isAuthenticated() ? userDetails : null;
+        return userDetails != null && userDetails.isAuthenticated() ? userDetails : null;
     }
 }

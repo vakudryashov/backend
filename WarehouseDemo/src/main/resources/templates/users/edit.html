@@ -12,18 +12,7 @@
     <title>редактирование профиля</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="account" th:text="${name}">Имя пользователя</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="logout">Выйти</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<nav th:replace="/fragments/header :: copy"></nav>
 
 <div class="d-flex align-items-center">
     <div class="container w-50">
@@ -39,7 +28,7 @@
                 <input type="password"
                        id="password"
                        th:field="*{password}"
-                       th:class="'form-control '+${#fields.hasErrors('password') ? 'is-invalid' : 'is-valid'}"
+                       th:class="'form-control '+${#fields.hasErrors('password') ? 'is-invalid' : ''}"
                        placeholder="От 8 до 32 символов">
                 <div th:class="${#fields.hasErrors('password') ? 'invalid' : 'valid'}+'-feedback'"
                      th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
@@ -50,7 +39,7 @@
                 <input type="password"
                        id="confirmPassword"
                        th:field="*{confirmPassword}"
-                       th:class="'form-control '+${#fields.hasErrors('confirmPassword') ? 'is-invalid' : 'is-valid'}"
+                       th:class="'form-control '+${#fields.hasErrors('confirmPassword') ? 'is-invalid' : ''}"
                        placeholder="Идентично полю выше">
                 <div th:class="${#fields.hasErrors('confirmPassword') ? 'invalid' : 'valid'}+'-feedback'"
                      th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
@@ -61,7 +50,7 @@
                 <input type="text"
                        id="fullname"
                        th:field="*{fullname}"
-                       th:class="'form-control '+${#fields.hasErrors('fullname') ? 'is-invalid' : 'is-valid'}"
+                       th:class="'form-control '+${#fields.hasErrors('fullname') ? 'is-invalid' : ''}"
                        required>
                 <div th:class="${#fields.hasErrors('fullname') ? 'invalid' : 'valid'}+'-feedback'"
                      th:if="${#fields.hasErrors('fullname')}" th:errors="*{fullname}"></div>
@@ -72,7 +61,7 @@
                 <input type="text"
                        id="email"
                        th:field="*{email}"
-                       th:class="'form-control '+${#fields.hasErrors('email') ? 'is-invalid' : 'is-valid'}"
+                       th:class="'form-control '+${#fields.hasErrors('email') ? 'is-invalid' : ''}"
                        placeholder="username@email.com"
                        required>
                 <div th:class="${#fields.hasErrors('email') ? 'invalid' : 'valid'}+'-feedback'"
@@ -84,7 +73,7 @@
                 <input type="tel"
                        id="phone"
                        th:field="*{phone}"
-                       th:class="'form-control '+${#fields.hasErrors('phone') ? 'is-invalid' : 'is-valid'}"
+                       th:class="'form-control '+${#fields.hasErrors('phone') ? 'is-invalid' : ''}"
                        placeholder="+7 (987) 654-32-10"
                        required>
                 <div th:class="${#fields.hasErrors('phone') ? 'invalid' : 'valid'}+'-feedback'"
@@ -94,7 +83,7 @@
             <div class="form-group">
                 <label for="roles" class="font-weight-bold">Привилегии:</label>
                 <div id="roles"
-                     th:class="'form-check '+${#fields.hasErrors('roleNames') ? 'is-invalid' : 'is-valid'}">
+                     th:class="'form-check '+${#fields.hasErrors('roleNames') ? 'is-invalid' : ''}">
                     <div th:each="role : ${roles}">
                         <input class="form-check-input"
                                type="checkbox"
@@ -108,6 +97,7 @@
                      th:if="${#fields.hasErrors('roleNames')}" th:errors="*{roleNames}">
                 </div>
             </div>
+            <input name="_csrf" type="hidden" th:value="${_csrf.token}"/>
             <button class="btn btn-success btn-block" type="submit">Сохранить</button>
             <a th:href="@{'/content/users/find'}" class="btn btn-secondary btn-block">Назад</a>
         </form>

@@ -1,8 +1,8 @@
 package vkudryashov.webserver.configuration;
 
-import org.hibernate.annotations.common.reflection.XMethod;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -12,7 +12,8 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+@Order(1)
+public class RestSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean(name = "pwdEncoder")
     public PasswordEncoder getPasswordEncoder() {
         DelegatingPasswordEncoder delPasswordEncoder =
@@ -25,6 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .antMatcher("/rest/**")
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.DELETE,"/rest/**").denyAll()
