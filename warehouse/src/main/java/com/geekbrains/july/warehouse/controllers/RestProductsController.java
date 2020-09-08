@@ -49,7 +49,7 @@ public class RestProductsController {
 
     @DeleteMapping
     @ApiOperation("Removes all products")
-    public String deleteAllProducts(@PathVariable Long id) {
+    public String deleteAllProducts() {
         productsService.deleteAll();
         return "OK";
     }

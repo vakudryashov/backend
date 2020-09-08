@@ -37,4 +37,8 @@ public class CategoriesService {
     public void deleteById(Long id) {
         categoriesRepository.deleteById(id);
     }
+
+    public boolean existsById(Long id) {
+        return categoriesRepository.existsById(id);
+    }
 }
