@@ -4,15 +4,15 @@ server:
     context-path: /warehouse
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:mydatabase;MODE=PostgreSQL
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/webserver_db?createDatabaseIfNotExist=true&serverTimezone=UTC&useUnicode=yes&characterEncoding=utf8
+    username: root
+    password: 1y23gOra0FKhaHVrqqiT
   jpa:
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
         temp:
           use_jdbc_metadata_defaults: false
   thymeleaf:

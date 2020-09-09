@@ -1,5 +1,6 @@
+ALTER DATABASE `webserver_db` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 drop table if exists products cascade;
-create table products (id bigserial, title varchar(255), description varchar(5000), quantity int, primary key(id));
+create table products (id bigint NOT NULL AUTO_INCREMENT, title varchar(255), description varchar(5000), quantity int, primary key(id));
 insert into products
 (title, description, quantity) values
 ('Шляпа', 'котелок', 320),
@@ -8,7 +9,7 @@ insert into products
 ('Очки', '+2', 30);
 
 drop table if exists categories cascade;
-create table categories (id bigserial, title varchar(255), primary key(id));
+create table categories (id bigint NOT NULL AUTO_INCREMENT, title varchar(255), primary key(id));
 insert into categories
 (title) values
 ('Головные уборы'),
@@ -22,7 +23,7 @@ insert into products_categories (product_id, category_id) values (1, 1), (2, 1),
 
 drop table if exists users;
 create table users (
-  id                    bigserial,
+  id                    bigint NOT NULL AUTO_INCREMENT,
   login                 VARCHAR(50) not null unique,
   password              VARCHAR(80) not null,
   fullname              VARCHAR(255),
@@ -33,15 +34,15 @@ create table users (
 
 drop table if exists roles;
 create table roles (
-  id                    serial,
+  id                    bigint NOT NULL AUTO_INCREMENT,
   name                  VARCHAR(50) not null,
   primary key (id)
 );
 
 drop table if exists users_roles;
 create table users_roles (
-  user_id               INT NOT NULL,
-  role_id               INT NOT NULL,
+  user_id               BIGINT NOT NULL,
+  role_id               BIGINT NOT NULL,
   primary key (user_id, role_id),
   FOREIGN KEY (user_id)
   REFERENCES users (id),
@@ -55,8 +56,10 @@ values
 
 insert into users (login,password, fullname, phone, email)
 values
---('11111111','$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i','admin','admin','admin@gmail.com');
---пароль: admin
+
+-- ('11111111','$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i','admin','admin','admin@gmail.com');
+-- пароль: admin
+
 ('admin', '$2a$10$iIngXqEsF7aTmZ4IvPZs/enNAba47.OOq5OlqWpQM3JGdlrPCuHTS','Иванов Иван Иванович', '+7 (987) 654-32-10', 'admin@gmail.com');
 
 insert into users_roles (user_id, role_id)
