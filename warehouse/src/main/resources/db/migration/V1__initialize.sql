@@ -21,6 +21,11 @@ foreign key (product_id) references products(id), foreign key (category_id) refe
 insert into products_categories (product_id, category_id) values (1, 1), (2, 1), (3, 1), (4, 2);
 
 
+drop table if exists products_history cascade;
+create table products_history (id bigint NOT NULL AUTO_INCREMENT, products_id bigint not null, quantity int, primary key(id),
+foreign key (products_id) references products(id));
+
+
 drop table if exists users;
 create table users (
   id                    bigint NOT NULL AUTO_INCREMENT,
