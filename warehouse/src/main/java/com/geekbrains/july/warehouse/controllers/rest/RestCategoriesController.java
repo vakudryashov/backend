@@ -1,4 +1,4 @@
-package com.geekbrains.july.warehouse.controllers;
+package com.geekbrains.july.warehouse.controllers.rest;
 
 import com.geekbrains.july.warehouse.entities.Category;
 import com.geekbrains.july.warehouse.entities.Product;

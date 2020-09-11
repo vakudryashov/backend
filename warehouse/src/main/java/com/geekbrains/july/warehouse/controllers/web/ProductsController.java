@@ -1,4 +1,4 @@
-package com.geekbrains.july.warehouse.controllers;
+package com.geekbrains.july.warehouse.controllers.web;
 
 import com.geekbrains.july.warehouse.entities.Category;
 import com.geekbrains.july.warehouse.entities.Product;
@@ -27,7 +27,9 @@ public class ProductsController {
     }
 
     @GetMapping
-    public String showAll(Model model, @RequestParam Map<String, String> requestParams, @RequestParam(name = "categories", required = false) List<Long> categoriesIds) {
+    public String showAll(Model model,
+                          @RequestParam Map<String, String> requestParams,
+                          @RequestParam(name = "categories", required = false) List<Long> categoriesIds) {
         Integer pageNumber = Integer.parseInt(requestParams.getOrDefault("p", "1"));
 
         List<Category> categoriesFilter = null;
@@ -38,18 +40,18 @@ public class ProductsController {
         Page<Product> products = productsService.findAll(productFilter.getSpec(), pageNumber);
         model.addAttribute("products", products);
         model.addAttribute("filterDef", productFilter.getFilterDefinition().toString());
-        return "all_products";
+        return "/products/all_products";
     }
 
     @GetMapping("/{id}")
     public String showProduct(@PathVariable Long id, Model model) {
         model.addAttribute("product", productsService.findById(id));
-        return "product_form";
+        return "/products/product_form";
     }
 
     @GetMapping("/add")
     public String showAddForm() {
-        return "add_product_form";
+        return "/products/add_product_form";
     }
 
     @PostMapping("/add")
@@ -61,7 +63,7 @@ public class ProductsController {
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("product", productsService.findById(id));
-        return "edit_product_form";
+        return "/products/edit_product_form";
     }
 
     @PostMapping("/edit")

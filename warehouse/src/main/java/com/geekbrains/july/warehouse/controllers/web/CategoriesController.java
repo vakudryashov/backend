@@ -1,4 +1,4 @@
-package com.geekbrains.july.warehouse.controllers;
+package com.geekbrains.july.warehouse.controllers.web;
 
 import com.geekbrains.july.warehouse.entities.Category;
 import com.geekbrains.july.warehouse.entities.Product;
@@ -30,18 +30,18 @@ public class CategoriesController {
     public String showAll(Model model) {
         List<Category> categories = categoriesService.getAllCategories();
         model.addAttribute("categories", categories);
-        return "all_categories";
+        return "/categories/all_categories";
     }
 
     @GetMapping("/{id}")
     public String showCategory(@PathVariable Long id, Model model) {
         model.addAttribute("category", categoriesService.findById(id));
-        return "category_form";
+        return "/categories/category_form";
     }
 
     @GetMapping("/add")
     public String showAddForm() {
-        return "add_category_form";
+        return "/categories/add_category_form";
     }
 
     @PostMapping("/add")
@@ -53,7 +53,7 @@ public class CategoriesController {
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("category", categoriesService.findById(id));
-        return "edit_category_form";
+        return "/categories/edit_category_form";
     }
 
     @PostMapping("/edit")

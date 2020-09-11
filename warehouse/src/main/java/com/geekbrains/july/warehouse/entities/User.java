@@ -1,10 +1,12 @@
 package com.geekbrains.july.warehouse.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Data
@@ -17,7 +19,14 @@ public class User {
     private Long id;
 
     private String login;
+
+    @JsonIgnore
     private String password;
+
+    @Transient
+    @JsonIgnore
+    private String confirmPassword;
+
     private String fullname;
     private String phone;
     private String email;
@@ -26,5 +35,9 @@ public class User {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    private Set<Role> roles;
+
+    @Transient
+    @JsonIgnore
+    private String[] roleNames;
 }
