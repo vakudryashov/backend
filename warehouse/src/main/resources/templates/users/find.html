@@ -27,8 +27,12 @@
                     <th scope="col">E-mail</th>
                     <th scope="col">Телефон</th>
                     <th scope="col">Роли</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
+                    <th scope="col" colspan="2">
+                        <a th:href="@{'/users/add'}">
+                            <img th:src="@{'/images/bootstrap-icons/person-plus.svg'}" alt="" width="20" height="20" title="Добавить пользователя"/>
+                        </a>
+                    </th>
+
                 </tr>
             </thead>
             <tbody>
@@ -77,5 +81,10 @@
         </table>
     </div>
 </div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script th:src="@{'/js/jquery-3.5.1.slim.min.js'}"></script>
+<script th:src="@{'/js/popper.min.js'}"></script>
+<script th:src="@{'/js/bootstrap.min.js'}"></script>
 </body>
 </html>

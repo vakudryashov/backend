@@ -8,18 +8,26 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{'/css/warehouse.css'}">
-    <link rel="stylesheet" th:href="@{'/css/signin.css'}">
-    <title>Редактирование профиля</title>
+
+    <title>Новый пользователь</title>
 </head>
 <body>
 <div th:replace="~{/fragments/navigation :: navigation(users)}"></div>
 <div class="container-flux content">
     <div class="container w-50">
-        <form th:action="@{'/users/edit'}" th:object="${userForm}" method="post" class="form-signin">
+        <form th:action="${path}" th:object="${userForm}" method="post" class="form-signin">
     <!--        Логин       -->
             <div class="form-group">
                 <label for="login" class="font-weight-bold">Логин:</label>
-                <input class="form-control" type="text" id="login" th:field="*{login}" readonly>
+                <input type="text"
+                       id="login"
+                       th:field="*{login}"
+                       class="form-control"
+                       th:classappend="${#fields.hasErrors('login') ? 'is-invalid' : ''}"
+                       placeholder="Более 4 символов"
+                       required autofocus>
+                <div th:class="${#fields.hasErrors('login') ? 'invalid' : 'valid'}+'-feedback'"
+                     th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
             </div>
     <!--        Пароль -->
             <div class="form-group">
@@ -28,7 +36,8 @@
                        id="password"
                        th:field="*{password}"
                        th:class="'form-control '+${#fields.hasErrors('password') ? 'is-invalid' : ''}"
-                       placeholder="От 8 до 32 символов">
+                       placeholder="От 5 до 32 символов"
+                       required>
                 <div th:class="${#fields.hasErrors('password') ? 'invalid' : 'valid'}+'-feedback'"
                      th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
             </div>
@@ -39,7 +48,8 @@
                        id="confirmPassword"
                        th:field="*{confirmPassword}"
                        th:class="'form-control '+${#fields.hasErrors('confirmPassword') ? 'is-invalid' : ''}"
-                       placeholder="Идентично полю выше">
+                       placeholder="Идентично полю выше"
+                       required>
                 <div th:class="${#fields.hasErrors('confirmPassword') ? 'invalid' : 'valid'}+'-feedback'"
                      th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
             </div>
@@ -61,7 +71,7 @@
                        id="email"
                        th:field="*{email}"
                        th:class="'form-control '+${#fields.hasErrors('email') ? 'is-invalid' : ''}"
-                       placeholder="username@email.com"
+                       placeholder="login@email.com"
                        required>
                 <div th:class="${#fields.hasErrors('email') ? 'invalid' : 'valid'}+'-feedback'"
                      th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
@@ -84,11 +94,7 @@
                 <div id="roles"
                      th:class="'form-check '+${#fields.hasErrors('roleNames') ? 'is-invalid' : ''}">
                     <div th:each="role : ${roles}">
-                        <input class="form-check-input"
-                               type="checkbox"
-                               th:id="'role_'+${role.id}"
-                               name="roleNames"
-                               th:value="${role.name}" th:checked="${#sets.contains(userForm.roles,role)}"/>
+                        <input class="form-check-input" type="checkbox" th:id="'role_'+${role.id}" name="roleNames" th:value=${role.name}>
                         <label class="form-check-label" th:for="'role_'+${role.id}" th:text="${role.name}"></label>
                     </div>
                 </div>

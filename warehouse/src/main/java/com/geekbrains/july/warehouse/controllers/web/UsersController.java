@@ -30,7 +30,7 @@ public class UsersController {
     @Autowired
     UserValidator userValidator;
 
-    @GetMapping(value = {"/registration"})
+    @GetMapping(value = "/users/add")
     public String userAdd(@ModelAttribute("userForm") User userForm,
                           BindingResult bindingResult,
                           Model model){
@@ -45,7 +45,6 @@ public class UsersController {
                                BindingResult bindingResult,
                                Model model){
         User user = usersService.findLoggedInUser().get();
-        model.addAttribute("userName",user.getFullname());
         model.addAttribute("roles",roleService.findAll());
         userValidator.validate(userForm, bindingResult);
         if(bindingResult.hasErrors()){
