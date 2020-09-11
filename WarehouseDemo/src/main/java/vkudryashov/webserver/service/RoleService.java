@@ -11,6 +11,6 @@ import java.util.List;
  * */
 public interface RoleService {
     void save(Role role);
-    Role findByName(String name);
+    Role findBySymbol(String symbol);
     List<Role> findAll();
 }

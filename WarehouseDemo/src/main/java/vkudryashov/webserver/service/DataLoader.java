@@ -27,8 +27,7 @@ public class DataLoader implements ApplicationRunner {
             user.setPassword(user.getUsername());
             user.setConfirmPassword(user.getUsername());
             Set<Role> roles = new HashSet<>();
-            roles.add(roleService.findByName("ROLE_USER"));
-            roles.add(roleService.findByName("ROLE_ADMIN"));
+            roles.add(roleService.findBySymbol("ROLE_ADMIN"));
             user.setRoles(roles);
             userService.save(user);
         }

@@ -32,7 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user == null) throw new UsernameNotFoundException("Login or password are incorrect");
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         for (Role role :user.getRoles()) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getSymbol()));
         }
         return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),grantedAuthorities);
     }

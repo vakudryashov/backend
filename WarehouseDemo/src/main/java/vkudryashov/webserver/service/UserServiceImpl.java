@@ -62,8 +62,8 @@ public class UserServiceImpl implements UserService{
     @Override
     public void setRoles(User user) {
         Set<Role> roles = new HashSet<>();
-        for (String roleName : user.getRoleNames()) {
-            roles.add(roleDao.findByName(roleName));
+        for (String symbol : user.getRoleNames()) {
+            roles.add(roleDao.findBySymbol(symbol));
         }
         user.setRoles(roles);
     }

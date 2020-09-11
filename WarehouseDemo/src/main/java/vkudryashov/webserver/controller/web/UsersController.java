@@ -67,13 +67,13 @@ public class UsersController {
         return "redirect:/content/users/find";
     }
 
-    @GetMapping(value = {"/content/users/find"})
+    @GetMapping(value = {"/content/control/users"})
     public String userFind(Model model){
         Authentication loggedInUser = securityService.findLoggedInUser();
         User user = userService.findByUsername(loggedInUser.getName());
         model.addAttribute("name",user.getFullname());
         model.addAttribute("users", userService.findAll());
-        return "/users/find";
+        return "/control/users";
     }
 
     @GetMapping(value = {"/content/users/edit"})
@@ -112,7 +112,7 @@ public class UsersController {
         userService.setRoles(userForm);
         userForm.setId(user.getId());
         userService.save(userForm);
-        return "redirect:/content/users/find";
+        return "redirect:/content/control/users";
     }
 
     @GetMapping(value = {"/content/users/delete"})
@@ -130,7 +130,7 @@ public class UsersController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Пользователь не найден");
         }
         userService.delete(user);
-        return "redirect:/content/users/find";
+        return "redirect:/content/control/users";
     }
 
 }
