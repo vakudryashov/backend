@@ -9,16 +9,16 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/signin.css">
 
-    <title>Администрирование</title>
+    <title>Привилегии пользователей</title>
 </head>
 <body>
 <nav th:replace="/fragments/header :: copy"></nav>
 <div class="container-flux p-5">
     <div class="list-group w-25 m-auto">
-        <a href="/content/control/users" class="list-group-item list-group-item-action">Пользователи</a>
-        <a href="/content/control/warehouses" class="list-group-item list-group-item-action">Склады</a>
-        <a href="/content/control/products" class="list-group-item list-group-item-action">Товары</a>
-        <a href="/content/control/directories" class="list-group-item list-group-item-action">Справочники</a>
+        <a href="/content/directories/roles" class="list-group-item list-group-item-action">Привилегии пользователей</a>
+        <a href="/content/directories/nomenclature" class="list-group-item list-group-item-action">Номенклатура товаров</a>
+        <a href="/content/directories/providers" class="list-group-item list-group-item-action">Список поставщиков</a>
+        <a th:href="@{'/'}" class="btn btn-secondary w-25">Назад</a>
     </div>
 </div>
 

@@ -7,53 +7,55 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/signin.css">
-
-    <title>Список пользователей</title>
+    <title>Роли</title>
 </head>
 <body>
 <nav th:replace="/fragments/header :: copy"></nav>
 
 <div class="container-flux p-5">
     <div class="w-50 m-auto">
-    <!--        Поле для поиска       -->
-        <div class="form-group">
-            <input type="search" class="form-control" id="find" placeholder="&#128270; Найти"/>
-        </div>
+        <h4>Привилегии пользователей:</h4>
         <table class="table">
             <thead class="bg-info text-white text-center">
-                <tr>
-                    <th scope="col">Логин</th>
-                    <th scope="col">ФИО</th>
-                    <th scope="col">E-mail</th>
-                    <th scope="col">Телефон</th>
-                    <th scope="col">Роли</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
+            <tr>
+                <th scope="col">Идентификатор</th>
+                <th scope="col">Наименование</th>
+                <th scope="col">Доступ к разделам</th>
+                <th scope="col">Актуальность</th>
+                <th scope="col" colspan="2">
+                    <a th:href="@{'/content/directories/add'}">
+                        <img src="/images/bootstrap-icons/person-plus.svg" alt="" width="20" height="20" title="Добавить роль"/>
+                    </a>
+                </th>
+            </tr>
             </thead>
             <tbody>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.username}" class="align-middle" ></td>
-                <td th:text="${user.fullname}" class="align-middle text-nowrap" ></td>
-                <td th:text="${user.email}" class="align-middle" ></td>
-                <td th:text="${user.phone}" class="align-middle text-nowrap" ></td>
+            <tr th:each="role : ${roles}">
+                <td th:text="${role.symbol}" class="align-middle" ></td>
+                <td th:text="${role.name}" class="align-middle text-nowrap" ></td>
                 <td class="align-middle">
                     <ul class="list-unstyled mb-0">
-                        <li th:each="role: ${user.roles}" th:text="${role.name}"></li>
+                        <li th:each="page: ${role.pages}" th:text="${page.name}"></li>
                     </ul>
                 </td>
+                <td class="align-middle text-center">
+                    <input type="checkbox" th:checked="${role.active}"/>
+                </td>
+
                 <td class="align-middle" >
-                    <a th:href="'/content/users/edit?username='+${user.username}">
-                        <img src="/images/bootstrap-icons/pencil.svg" alt="" width="20" height="20" title="Edit"/>
+                    <a th:href="'/content/directories/edit/role/'+${role.id}">
+                        <img src="/images/bootstrap-icons/pencil.svg" alt="" width="20" height="20" title="Редактировать"/>
                     </a>
                 </td>
                 <td class="align-middle" >
-                    <a th:href="'/content/users/delete?username='+${user.username}" title="Удалить" data-toggle="modal" th:data-target="'#exampleModal_'+${user.id}">
+                    <a th:href="'/content/directories/delete/role/'+${role.id}"
+                       title="Удалить"
+                       data-toggle="modal"
+                       th:data-target="'#exampleModal_'+${role.id}">
                         &#10060;
                     </a>
                 </td>
-                <div class="modal" tabindex="-1" role="dialog" th:id="'exampleModal_'+${user.id}">
+                <div class="modal" tabindex="-1" role="dialog" th:id="'exampleModal_'+${role.id}">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -63,19 +65,19 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <p th:text="${user.username}+' - '+${user.fullname}"></p>
+                                <p th:text="${role.symbol}+' - '+${role.name}"></p>
                                 <p>Вы уверены, что хотите продолжить?</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                                <a th:href="'/content/users/delete?username='+${user.username}" class="btn btn-success">Продолжить</a>
+                                <a th:href="'/content/directories/delete/role/'+${role.id}" class="btn btn-success">Продолжить</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </tr>
             <tr><td class="text-center" colspan="6">
-                <a th:href="@{'/content/control/users'}" class="btn btn-secondary w-25">Назад</a>
+                <a th:href="@{'/content/control/directories'}" class="btn btn-secondary w-25">Назад</a>
             </td></tr>
             </tbody>
         </table>

@@ -89,7 +89,7 @@
                                type="checkbox"
                                th:id="'role_'+${role.id}"
                                name="roleNames"
-                               th:value="${role.name}" th:checked="${#sets.contains(userForm.roles,role)}"/>
+                               th:value="${role.symbol}" th:checked="${#sets.contains(userForm.roles,role)}"/>
                         <label class="form-check-label" th:for="'role_'+${role.id}" th:text="${role.name}"></label>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
             </div>
             <input name="_csrf" type="hidden" th:value="${_csrf.token}"/>
             <button class="btn btn-success btn-block" type="submit">Сохранить</button>
-            <a th:href="@{'/content/users/find'}" class="btn btn-secondary btn-block">Назад</a>
+            <a th:href="@{'/content/control/users'}" class="btn btn-secondary btn-block">Назад</a>
         </form>
 
 
