@@ -5,6 +5,7 @@ import com.geekbrains.july.warehouse.entities.User;
 import com.geekbrains.july.warehouse.repositories.RolesRepository;
 import com.geekbrains.july.warehouse.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,8 +13,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,6 +35,9 @@ public class UsersService implements UserDetailsService {
     public void setRolesRepository(RolesRepository rolesRepository) {
         this.rolesRepository = rolesRepository;
     }
+
+    @Autowired
+    private PasswordEncoder pwdEncoder;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -73,6 +79,13 @@ public class UsersService implements UserDetailsService {
     }
 
     public void save(User user) {
+        if (user.getConfirmPassword() != null){
+            if (user.getConfirmPassword().equals(user.getPassword())) {
+                user.setPassword(pwdEncoder.encode(user.getPassword()));
+            }else{
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Значения полей password и confirmPassword должны быть идентичны");
+            }
+        }
         usersRepository.save(user);
     }
 

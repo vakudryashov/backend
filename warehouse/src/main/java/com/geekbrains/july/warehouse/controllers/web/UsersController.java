@@ -82,10 +82,9 @@ public class UsersController {
                            BindingResult bindingResult,
                            Model model){
         User user = usersService.findLoggedInUser().get();
-        model.addAttribute("userName",user.getFullname());
         model.addAttribute("roles",roleService.findAll());
         Set<String> skip = new HashSet<>();
-        skip.add("username");
+        skip.add("login");
         if (userForm.getPassword().equals("")){
             skip.add("password");
             userForm.setPassword(user.getPassword());
@@ -98,7 +97,7 @@ public class UsersController {
             return "/users/edit";
         }
         usersService.setRoles(userForm);
-        userForm.setId(user.getId());
+        userForm.setId(usersService.findByLogin(userForm.getLogin()).get().getId());
         usersService.save(userForm);
         return "redirect:/users";
     }
