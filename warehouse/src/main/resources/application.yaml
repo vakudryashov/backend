@@ -5,15 +5,20 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/webserver_db?createDatabaseIfNotExist=true&serverTimezone=UTC&useUnicode=yes&characterEncoding=utf8
-    username: root
-    password: 1y23gOra0FKhaHVrqqiT
+    url: jdbc:mysql://localhost:3306/warehouse?createDatabaseIfNotExist=true&serverTimezone=UTC&useUnicode=yes&characterEncoding=utf8
+    #url: jdbc:mysql://localhost:3306
+    username: warehouse
+    password: Ware139H0use
   jpa:
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
+        #jdbc:
+        #time_zone: UTC
         dialect: org.hibernate.dialect.MySQL8Dialect
         temp:
           use_jdbc_metadata_defaults: false
   thymeleaf:
     encoding: UTF-8
+  messages:
+    basename: validation

@@ -5,16 +5,20 @@ import com.geekbrains.july.warehouse.entities.User;
 import com.geekbrains.july.warehouse.repositories.RolesRepository;
 import com.geekbrains.july.warehouse.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +36,11 @@ public class UsersService implements UserDetailsService {
         this.rolesRepository = rolesRepository;
     }
 
+    @Autowired
+    private PasswordEncoder pwdEncoder;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
     public Optional<User> findByLogin(String login) {
         return usersRepository.findOneByLogin(login);
     }
@@ -40,11 +49,47 @@ public class UsersService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = usersRepository.findOneByLogin(username).orElseThrow(() -> new UsernameNotFoundException("Invalid username or password"));
-        return new org.springframework.security.core.userdetails.User(user.getPhone(), user.getPassword(),
+        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(),
                 mapRolesToAuthorities(user.getRoles()));
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+    }
+
+    public Optional<User> findLoggedInUser() {
+        Authentication userDetails = SecurityContextHolder.getContext().getAuthentication();
+        if (!userDetails.isAuthenticated()){
+            return Optional.empty();
+        }else {
+            return findByLogin(userDetails.getName());
+        }
+    }
+
+    public List<User> findAll() {
+        return (List<User>) usersRepository.findAll();
+    }
+
+    public void setRoles(User user) {
+        Set<Role> roles = new HashSet<>();
+        for (String roleName : user.getRoleNames()) {
+            roles.add(rolesRepository.findOneByName(roleName));
+        }
+        user.setRoles(roles);
+    }
+
+    public void save(User user) {
+        if (user.getConfirmPassword() != null){
+            if (user.getConfirmPassword().equals(user.getPassword())) {
+                user.setPassword(pwdEncoder.encode(user.getPassword()));
+            }else{
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Значения полей password и confirmPassword должны быть идентичны");
+            }
+        }
+        usersRepository.save(user);
+    }
+
+    public void delete(User user) {
+        usersRepository.delete(user);
     }
 }

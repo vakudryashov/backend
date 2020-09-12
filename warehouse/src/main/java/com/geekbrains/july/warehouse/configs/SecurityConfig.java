@@ -28,11 +28,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/api/v1/**").hasRole("MANAGER")
                 .antMatchers(HttpMethod.PUT,"/api/v1/**").hasRole("MANAGER")
                 .antMatchers(HttpMethod.DELETE,"/api/v1/**").hasRole("ADMIN")
-                .antMatchers("/api/v1/**").authenticated()
+                .antMatchers("/","/css/**","/images/**","/js/**").permitAll()
+//                .antMatchers("/api/v1/**").authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/")
                 .loginProcessingUrl("/authenticate")
+                .defaultSuccessUrl("/products",true)
                 .permitAll()
                 .and()
                 .logout()
@@ -41,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
     }
 
-    @Bean
+    @Bean(name = "pwdEncoder")
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }

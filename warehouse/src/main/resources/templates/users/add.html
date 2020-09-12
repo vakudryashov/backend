@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{'/css/warehouse.css'}">
+
+    <title>Новый пользователь</title>
+</head>
+<body>
+<div th:replace="~{/fragments/navigation :: navigation(users)}"></div>
+<div class="container-flux content">
+    <div class="container w-50">
+        <form th:action="${path}" th:object="${userForm}" method="post" class="form-signin">
+    <!--        Логин       -->
+            <div class="form-group">
+                <label for="login" class="font-weight-bold">Логин:</label>
+                <input type="text"
+                       id="login"
+                       th:field="*{login}"
+                       class="form-control"
+                       th:classappend="${#fields.hasErrors('login') ? 'is-invalid' : ''}"
+                       placeholder="Более 4 символов"
+                       required autofocus>
+                <div th:class="${#fields.hasErrors('login') ? 'invalid' : 'valid'}+'-feedback'"
+                     th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
+            </div>
+    <!--        Пароль -->
+            <div class="form-group">
+                <label for="password" class="font-weight-bold">Пароль:</label>
+                <input type="password"
+                       id="password"
+                       th:field="*{password}"
+                       th:class="'form-control '+${#fields.hasErrors('password') ? 'is-invalid' : ''}"
+                       placeholder="От 5 до 32 символов"
+                       required>
+                <div th:class="${#fields.hasErrors('password') ? 'invalid' : 'valid'}+'-feedback'"
+                     th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            </div>
+    <!--        Подтверждение пароля -->
+            <div class="form-group">
+                <label for="confirmPassword" class="font-weight-bold">Пароль ещё раз:</label>
+                <input type="password"
+                       id="confirmPassword"
+                       th:field="*{confirmPassword}"
+                       th:class="'form-control '+${#fields.hasErrors('confirmPassword') ? 'is-invalid' : ''}"
+                       placeholder="Идентично полю выше"
+                       required>
+                <div th:class="${#fields.hasErrors('confirmPassword') ? 'invalid' : 'valid'}+'-feedback'"
+                     th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
+            </div>
+    <!--        ФИО -->
+            <div class="form-group">
+                <label for="fullname" class="font-weight-bold">Фамилия Имя Отчество:</label>
+                <input type="text"
+                       id="fullname"
+                       th:field="*{fullname}"
+                       th:class="'form-control '+${#fields.hasErrors('fullname') ? 'is-invalid' : ''}"
+                       required>
+                <div th:class="${#fields.hasErrors('fullname') ? 'invalid' : 'valid'}+'-feedback'"
+                     th:if="${#fields.hasErrors('fullname')}" th:errors="*{fullname}"></div>
+            </div>
+    <!--        e-mail -->
+            <div class="form-group">
+                <label for="email" class="font-weight-bold">e-mail:</label>
+                <input type="text"
+                       id="email"
+                       th:field="*{email}"
+                       th:class="'form-control '+${#fields.hasErrors('email') ? 'is-invalid' : ''}"
+                       placeholder="login@email.com"
+                       required>
+                <div th:class="${#fields.hasErrors('email') ? 'invalid' : 'valid'}+'-feedback'"
+                     th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+            </div>
+    <!--        Номер телефона -->
+            <div class="form-group">
+                <label for="phone" class="font-weight-bold">Номер телефона:</label>
+                <input type="tel"
+                       id="phone"
+                       th:field="*{phone}"
+                       th:class="'form-control '+${#fields.hasErrors('phone') ? 'is-invalid' : ''}"
+                       placeholder="+7 (987) 654-32-10"
+                       required>
+                <div th:class="${#fields.hasErrors('phone') ? 'invalid' : 'valid'}+'-feedback'"
+                     th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+            </div>
+    <!--        Роли -->
+            <div class="form-group">
+                <label for="roles" class="font-weight-bold">Привилегии:</label>
+                <div id="roles"
+                     th:class="'form-check '+${#fields.hasErrors('roleNames') ? 'is-invalid' : ''}">
+                    <div th:each="role : ${roles}">
+                        <input class="form-check-input" type="checkbox" th:id="'role_'+${role.id}" name="roleNames" th:value=${role.name}>
+                        <label class="form-check-label" th:for="'role_'+${role.id}" th:text="${role.name}"></label>
+                    </div>
+                </div>
+                <div th:class="${#fields.hasErrors('roleNames') ? 'invalid' : 'valid'}+'-feedback'"
+                     th:if="${#fields.hasErrors('roleNames')}" th:errors="*{roleNames}">
+                </div>
+            </div>
+            <button class="btn btn-success btn-block" type="submit">Сохранить</button>
+            <a th:href="@{'/users'}" class="btn btn-secondary btn-block">Назад</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>
