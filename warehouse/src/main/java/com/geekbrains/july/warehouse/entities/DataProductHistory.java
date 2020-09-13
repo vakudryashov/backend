@@ -16,19 +16,14 @@ public class DataProductHistory {
     private Long id;
 
     @Column(name = "products_id")
-    private Long productId;
+    private Long productsId;
 
     @Column(name = "quantity")
     private int quantity;
 
-    @ManyToOne
-    @JoinTable(name = "products",
-            joinColumns = @JoinColumn(name = "products_id"))
-    private Product product;
-
-    public DataProductHistory(Long id, Long productId, int quantity) {
+    public DataProductHistory(Long id, Long productsId, int quantity) {
         this.id = id;
-        this.productId = productId;
+        this.productsId = productsId;
         this.quantity = quantity;
     }
 }

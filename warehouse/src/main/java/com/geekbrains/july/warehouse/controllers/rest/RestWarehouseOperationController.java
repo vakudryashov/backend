@@ -31,6 +31,21 @@ public class RestWarehouseOperationController {
         this.dataProductHistoryService = dataProductHistoryService;
     }
 
+    @GetMapping(produces = "application/json")
+    @ApiOperation("Returns all history")
+    public List<DataProductHistory> getAllDataHistory() {
+        return dataProductHistoryService.getAllHistory();
+    }
+
+    @GetMapping(value = "/{id}", produces = "application/json")
+    @ApiOperation("Returns products history by id")
+    public ResponseEntity<?> getProductsHistory(@PathVariable Long id) {
+        if (!dataProductHistoryService.existsById(id)) {
+            return new ResponseEntity<>("Product not found, id: " + id, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(dataProductHistoryService.getProductHistory(id), HttpStatus.OK);
+    }
+
     @PutMapping(value = "/receipts", consumes = "application/json", produces = "application/json")
     @ApiOperation("receipts products")
     public ResponseEntity<?> receiptsProduct(@RequestBody Product productReceipts) {
@@ -64,7 +79,7 @@ public class RestWarehouseOperationController {
         }
         product.setQuantity(product.getQuantity() - productShipment.getQuantity());
 
-        DataProductHistory dataProductHistory = new DataProductHistory(null, product.getId(), productShipment.getQuantity());
+        DataProductHistory dataProductHistory = new DataProductHistory(null, product.getId(), -productShipment.getQuantity());
         dataProductHistoryService.saveOrUpdate(dataProductHistory);
         
         return new ResponseEntity<>(productsService.saveOrUpdate(product), HttpStatus.OK);
