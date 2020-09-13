@@ -1,9 +1,6 @@
 package com.geekbrains.july.warehouse.services;
 
-import com.geekbrains.july.warehouse.entities.Category;
 import com.geekbrains.july.warehouse.entities.DataProductHistory;
-import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
-import com.geekbrains.july.warehouse.repositories.CategoriesRepository;
 import com.geekbrains.july.warehouse.repositories.DataProductHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +16,16 @@ public class DataProductHistoryService {
         this.dataProductHistoryRepository = dataProductHistoryRepository;
     }
 
-    public List<DataProductHistory> getAllCategories() {
+    public List<DataProductHistory> getAllHistory() {
         return dataProductHistoryRepository.findAll();
+    }
+
+    public List<DataProductHistory> getProductHistory(Long productsId) {
+        return dataProductHistoryRepository.findAllByProductsId(productsId);
+    }
+
+    public boolean existsById(Long id) {
+        return dataProductHistoryRepository.existsById(id);
     }
 
     public DataProductHistory saveOrUpdate(DataProductHistory dataProductHistory) {
