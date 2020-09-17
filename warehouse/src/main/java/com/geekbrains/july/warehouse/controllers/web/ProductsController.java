@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,7 +56,14 @@ public class ProductsController {
     }
 
     @PostMapping("/add")
-    public String saveNewProduct(@ModelAttribute Product product) {
+    public String saveNewProduct(@RequestParam(name = "title") String title,
+                                 @RequestParam(name = "description", required = false) String description,
+                                 @RequestParam(name = "quantity") int quantity,
+                                 @RequestParam(name = "categories", required = false) List<Long> categoriesIds) {
+        Product product = new Product(0L, title, description, quantity);
+        if (categoriesIds != null) {
+            productsService.setCategories(product, categoriesIds);
+        }
         productsService.saveOrUpdate(product);
         return "redirect:/products/";
     }
@@ -67,7 +75,15 @@ public class ProductsController {
     }
 
     @PostMapping("/edit")
-    public String modifyProduct(@ModelAttribute Product product) {
+    public String modifyProduct(@RequestParam(name = "id") Long id,
+                                @RequestParam(name = "title") String title,
+                                @RequestParam(name = "description", required = false) String description,
+                                @RequestParam(name = "quantity") int quantity,
+                                @RequestParam(name = "categories", required = false) List<Long> categoriesIds) {
+        Product product = new Product(id, title, description, quantity);
+        if (categoriesIds != null) {
+            productsService.setCategories(product, categoriesIds);
+        }
         productsService.saveOrUpdate(product);
         return "redirect:/products/";
     }
