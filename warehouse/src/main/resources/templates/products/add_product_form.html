@@ -18,6 +18,16 @@
         <input type="text" name="title" placeholder="Введите название"/>
         <input type="text" name="description" placeholder="Введите описание"/>
         <input type="text" name="quantity" placeholder="Введите количество"/>
+
+        <div class="form-group">
+            <label>Категории</label>
+            <div class="form-check" th:each="c : ${@categoriesService.getAllCategories()}">
+                <input type="checkbox" class="form-check-input" name="categories" th:value="${c.id}">
+                <label class="form-check-label" th:text="${c.title}"></label>
+                <span th:text="${param.categories}"/>
+            </div>
+        </div>
+
         <input type="submit"/>
     </form>
     <br>
