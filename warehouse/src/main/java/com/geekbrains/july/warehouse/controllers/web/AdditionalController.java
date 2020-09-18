@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AdditionalController {
@@ -19,8 +20,4 @@ public class AdditionalController {
         throw new CustomException("Неправильный логин и/или пароль", HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler
-    public ResponseEntity<?> handleException(CustomException exception){
-        return new ResponseEntity<>(exception.getMessage(), exception.getStatus());
-    }
 }
