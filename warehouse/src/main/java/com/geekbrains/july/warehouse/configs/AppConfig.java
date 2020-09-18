@@ -2,6 +2,7 @@ package com.geekbrains.july.warehouse.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -30,4 +31,10 @@ public class AppConfig implements WebMvcConfigurer {
         localeChangeInterceptor.setParamName("lang");
         return localeChangeInterceptor;
     }
+
+    @Bean(name = "pwdEncoder")
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 }
