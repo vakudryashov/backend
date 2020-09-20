@@ -2,13 +2,17 @@ server:
   port: 8189
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:warehouse
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/warehouse?createDatabaseIfNotExist=true&serverTimezone=UTC&useUnicode=yes&characterEncoding=utf8
     username: warehouse
-    password:
+    password: Ware139H0use
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
     show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        temp:
+          use_jdbc_metadata_defaults: false
   thymeleaf:
     encoding: UTF-8
   messages:
