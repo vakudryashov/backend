@@ -3,6 +3,7 @@ package com.geekbrains.july.warehouse.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "categories")
 @Data
+@Setter
 @NoArgsConstructor
 public class Category {
     @Id

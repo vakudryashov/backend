@@ -1,7 +1,9 @@
 package com.geekbrains.july.warehouse.entities;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.List;
 @Table(name = "products")
 @Data
 @NoArgsConstructor
+@Setter
+@Getter
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
