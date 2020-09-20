@@ -1,4 +1,4 @@
-ALTER DATABASE `warehouse` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+--ALTER DATABASE `warehouse` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 drop table if exists products cascade;
 create table products (id bigint NOT NULL AUTO_INCREMENT, title varchar(255), description varchar(5000), quantity int, primary key(id));
 insert into products

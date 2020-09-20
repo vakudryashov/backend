@@ -2,20 +2,26 @@ server:
   port: 8189
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/warehouse?createDatabaseIfNotExist=true&serverTimezone=UTC&useUnicode=yes&characterEncoding=utf8
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.h2.Driver
+    #url: jdbc:mysql://localhost:3306/warehouse?createDatabaseIfNotExist=true&serverTimezone=UTC&useUnicode=yes&characterEncoding=utf8
+    url: jdbc:h2:mem:warehouse
     username: warehouse
     password: Ware139H0use
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     show-sql: false
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-        temp:
-          use_jdbc_metadata_defaults: false
+    #properties:
+      #hibernate:
+        #dialect: org.hibernate.dialect.MySQL8Dialect
+        #temp:
+          #use_jdbc_metadata_defaults: false
   thymeleaf:
     encoding: UTF-8
   messages:
     basename: validation
+  h2:
+    console:
+      enabled: true
 jwt:
   secret: SXQnc015U2VjcmV0S2V5MWQ5OFQ3Y2lqaGFzODd5am5iY2l1eTdTM2RhOXs4eWNramhrajM3a2poRmRpOHlxamtoamtraixtamxranpDZGY7ams7al5sa2pmamtnYmV3dWloa2pubCQ7ZmlvaHdlaWhq
