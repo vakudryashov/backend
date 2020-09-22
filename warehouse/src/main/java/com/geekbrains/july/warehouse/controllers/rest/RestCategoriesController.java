@@ -6,6 +6,7 @@ import com.geekbrains.july.warehouse.entities.dtos.ProductDto;
 import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
 import com.geekbrains.july.warehouse.services.CategoriesService;
 import com.geekbrains.july.warehouse.services.ProductsService;
+import com.geekbrains.july.warehouse.services.UsersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -22,10 +24,12 @@ import java.util.List;
 @Api("Set of endpoints for CRUD operations for Products")
 public class RestCategoriesController {
     private CategoriesService categoriesService;
+    private UsersService usersService;
 
     @Autowired
-    public RestCategoriesController(CategoriesService categoriesService) {
+    public RestCategoriesController(CategoriesService categoriesService, UsersService usersService) {
         this.categoriesService = categoriesService;
+        this.usersService = usersService;
     }
 
     @GetMapping(produces = "application/json")
@@ -43,6 +47,17 @@ public class RestCategoriesController {
         return new ResponseEntity<>(categoriesService.findById(id), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/{id}/products", produces = "application/json")
+    @ApiOperation("Returns products from category by id")
+    public ResponseEntity<?> getProductsFromCategory(@PathVariable Long id) {
+        if (!categoriesService.existsById(id)) {
+            throw new ProductNotFoundException("Category not found, id: " + id);
+        }
+        Category category = categoriesService.findById(id);
+        List<Product> products = category.getProducts();
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     @ApiOperation("Removes one category by id")
     public String deleteOneProducts(@PathVariable Long id) {
@@ -58,6 +73,10 @@ public class RestCategoriesController {
         if (category.getId() != null) {
             category.setId(null);
         }
+
+        category.setCreationData(new Date());
+        category.setAuthorName(usersService.currentUserFullname());
+
         return categoriesService.saveOrUpdate(category);
     }
 

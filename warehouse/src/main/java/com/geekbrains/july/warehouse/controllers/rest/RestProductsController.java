@@ -4,14 +4,15 @@ import com.geekbrains.july.warehouse.entities.Product;
 import com.geekbrains.july.warehouse.entities.dtos.ProductDto;
 import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
 import com.geekbrains.july.warehouse.services.ProductsService;
+import com.geekbrains.july.warehouse.services.UsersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -20,10 +21,12 @@ import java.util.List;
 @Api("Set of endpoints for CRUD operations for Products")
 public class RestProductsController {
     private ProductsService productsService;
+    private UsersService usersService;
 
     @Autowired
-    public RestProductsController(ProductsService productsService) {
+    public RestProductsController(ProductsService productsService, UsersService usersService) {
         this.productsService = productsService;
+        this.usersService = usersService;
     }
 
     @GetMapping("/dto")
@@ -69,6 +72,10 @@ public class RestProductsController {
         if (product.getId() != null) {
             product.setId(null);
         }
+
+        product.setCreationData(new Date());
+        product.setAuthorName(usersService.currentUserFullname());
+
         return productsService.saveOrUpdate(product);
     }
 

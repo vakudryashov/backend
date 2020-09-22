@@ -60,7 +60,7 @@ public class ProductsController {
                                  @RequestParam(name = "description", required = false) String description,
                                  @RequestParam(name = "quantity") int quantity,
                                  @RequestParam(name = "categories", required = false) List<Long> categoriesIds) {
-        Product product = new Product(0L, title, description, quantity);
+        Product product = new Product(0L, title, description, quantity, "шт.", null, null);
         if (categoriesIds != null) {
             productsService.setCategories(product, categoriesIds);
         }
@@ -80,7 +80,7 @@ public class ProductsController {
                                 @RequestParam(name = "description", required = false) String description,
                                 @RequestParam(name = "quantity") int quantity,
                                 @RequestParam(name = "categories", required = false) List<Long> categoriesIds) {
-        Product product = new Product(id, title, description, quantity);
+        Product product = new Product(id, title, description, quantity, "шт.", null, null);
         if (categoriesIds != null) {
             productsService.setCategories(product, categoriesIds);
         }
