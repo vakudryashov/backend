@@ -1,15 +1,17 @@
 -- ALTER DATABASE `warehouse` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 drop table if exists products cascade;
-create table products (id bigint NOT NULL AUTO_INCREMENT, title varchar(255), description varchar(5000), quantity int, primary key(id));
+create table products (id bigint NOT NULL AUTO_INCREMENT, title varchar(255), description varchar(5000), quantity int,
+units varchar(25), creation_data varchar(25), image varchar(255), author varchar(255), primary key(id));
 insert into products
-(title, description, quantity) values
-('Шляпа', 'котелок', 320),
-('Шляпа', 'цилиндр', 80),
-('Панама', 'панама', 80),
-('Очки', '+2', 30);
+(title, description, quantity, units) values
+('Шляпа', 'котелок', 320, 'шт.'),
+('Шляпа', 'цилиндр', 80, 'шт.'),
+('Панама', 'панама', 80, 'шт.'),
+('Очки', '+2', 30, 'шт.');
 
 drop table if exists categories cascade;
-create table categories (id bigint NOT NULL AUTO_INCREMENT, title varchar(255), primary key(id));
+create table categories (id bigint NOT NULL AUTO_INCREMENT, title varchar(255), description varchar(5000),
+creation_data varchar(25), author varchar(255), primary key(id));
 insert into categories
 (title) values
 ('Головные уборы'),
