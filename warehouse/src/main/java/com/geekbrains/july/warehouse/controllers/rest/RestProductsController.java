@@ -1,8 +1,10 @@
 package com.geekbrains.july.warehouse.controllers.rest;
 
 import com.geekbrains.july.warehouse.entities.Product;
+import com.geekbrains.july.warehouse.entities.ProductTransaction;
 import com.geekbrains.july.warehouse.entities.dtos.ProductDto;
 import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
+import com.geekbrains.july.warehouse.services.ProductTransactionService;
 import com.geekbrains.july.warehouse.services.ProductsService;
 import com.geekbrains.july.warehouse.services.UsersService;
 import io.swagger.annotations.Api;
@@ -22,11 +24,14 @@ import java.util.List;
 public class RestProductsController {
     private ProductsService productsService;
     private UsersService usersService;
+    private ProductTransactionService productTransactionService;
 
     @Autowired
-    public RestProductsController(ProductsService productsService, UsersService usersService) {
+    public RestProductsController(ProductsService productsService, UsersService usersService,
+                                  ProductTransactionService productTransactionService) {
         this.productsService = productsService;
         this.usersService = usersService;
+        this.productTransactionService = productTransactionService;
     }
 
     @GetMapping("/dto")
@@ -60,7 +65,13 @@ public class RestProductsController {
     @DeleteMapping("/{id}")
     @ApiOperation("Removes one product by id")
     public String deleteOneProducts(@PathVariable Long id) {
+        if (!productsService.existsById(id)) {
+            throw new ProductNotFoundException("Product not found, id: " + id);
+        }
+        int productQuantity = productsService.findById(id).getQuantity();
         productsService.deleteById(id);
+        ProductTransaction productTransaction = new ProductTransaction(null, "DELETE", id, productQuantity, usersService.currentUserFullname());
+        productTransactionService.saveOrUpdate(productTransaction);
         return "OK";
     }
 
@@ -76,7 +87,11 @@ public class RestProductsController {
         product.setCreationData(new Date());
         product.setAuthorName(usersService.currentUserFullname());
 
-        return productsService.saveOrUpdate(product);
+        Product savedProduct = productsService.saveOrUpdate(product);
+        ProductTransaction productTransaction = new ProductTransaction(null, "CREATE", savedProduct.getId(),
+                                                                  savedProduct.getQuantity(), usersService.currentUserFullname());
+        productTransactionService.saveOrUpdate(productTransaction);
+        return savedProduct;
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json")
@@ -89,6 +104,10 @@ public class RestProductsController {
         if (product.getQuantity() < 0) {
             return new ResponseEntity<>("Product's quantity can not be negative", HttpStatus.BAD_REQUEST);
         }
+
+        ProductTransaction productTransaction = new ProductTransaction(null, "EDIT", product.getId(),
+                                                          product.getQuantity(), usersService.currentUserFullname());
+        productTransactionService.saveOrUpdate(productTransaction);
         return new ResponseEntity<>(productsService.saveOrUpdate(product), HttpStatus.OK);
     }
 

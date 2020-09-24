@@ -1,7 +1,7 @@
 -- ALTER DATABASE `warehouse` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 drop table if exists products cascade;
 create table products (id bigint NOT NULL AUTO_INCREMENT, title varchar(255), description varchar(5000), quantity int,
-units varchar(25), creation_data varchar(25), image varchar(255), author varchar(255), primary key(id));
+units varchar(25), creation_data date, image varchar(255), author varchar(255), primary key(id));
 insert into products
 (title, description, quantity, units) values
 ('Шляпа', 'котелок', 320, 'шт.'),
@@ -11,7 +11,7 @@ insert into products
 
 drop table if exists categories cascade;
 create table categories (id bigint NOT NULL AUTO_INCREMENT, title varchar(255), description varchar(5000),
-creation_data varchar(25), author varchar(255), primary key(id));
+creation_data date, author varchar(255), primary key(id));
 insert into categories
 (title) values
 ('Головные уборы'),
@@ -26,6 +26,16 @@ insert into products_categories (product_id, category_id) values (1, 1), (2, 1),
 drop table if exists products_history cascade;
 create table products_history (id bigint NOT NULL AUTO_INCREMENT, products_id bigint not null, quantity int, primary key(id),
 foreign key (products_id) references products(id));
+
+
+drop table if exists products_transaction cascade;
+create table products_transaction (id bigint NOT NULL AUTO_INCREMENT, type varchar(25), product_id bigint not null,
+product_quantity int, primary key(id), data date, author varchar(255), primary key(id));
+
+
+drop table if exists categories_transaction cascade;
+create table categories_transaction (id bigint NOT NULL AUTO_INCREMENT, type varchar(25), category_id bigint not null,
+primary key(id), data date, author varchar(255), primary key(id));
 
 
 drop table if exists users;

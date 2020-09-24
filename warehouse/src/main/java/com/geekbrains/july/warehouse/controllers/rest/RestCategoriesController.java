@@ -1,17 +1,18 @@
 package com.geekbrains.july.warehouse.controllers.rest;
 
 import com.geekbrains.july.warehouse.entities.Category;
+import com.geekbrains.july.warehouse.entities.CategoryTransaction;
+import com.geekbrains.july.warehouse.services.CategoryTransactionService;
 import com.geekbrains.july.warehouse.entities.Product;
-import com.geekbrains.july.warehouse.entities.dtos.ProductDto;
+import com.geekbrains.july.warehouse.entities.ProductTransaction;
 import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
 import com.geekbrains.july.warehouse.services.CategoriesService;
-import com.geekbrains.july.warehouse.services.ProductsService;
+import com.geekbrains.july.warehouse.services.ProductTransactionService;
 import com.geekbrains.july.warehouse.services.UsersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,15 +22,18 @@ import java.util.List;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/v1/categories")
-@Api("Set of endpoints for CRUD operations for Products")
+@Api("Set of endpoints for CRUD operations for Categories")
 public class RestCategoriesController {
     private CategoriesService categoriesService;
     private UsersService usersService;
+    private CategoryTransactionService categoryTransactionService;
 
     @Autowired
-    public RestCategoriesController(CategoriesService categoriesService, UsersService usersService) {
+    public RestCategoriesController(CategoriesService categoriesService, UsersService usersService,
+                                    CategoryTransactionService categoryTransactionService) {
         this.categoriesService = categoriesService;
         this.usersService = usersService;
+        this.categoryTransactionService = categoryTransactionService;
     }
 
     @GetMapping(produces = "application/json")
@@ -62,6 +66,8 @@ public class RestCategoriesController {
     @ApiOperation("Removes one category by id")
     public String deleteOneProducts(@PathVariable Long id) {
         categoriesService.deleteById(id);
+        CategoryTransaction categoryTransaction = new CategoryTransaction(null, "DELETE", id, usersService.currentUserFullname());
+        categoryTransactionService.saveOrUpdate(categoryTransaction);
         return "OK";
     }
 
@@ -77,7 +83,11 @@ public class RestCategoriesController {
         category.setCreationData(new Date());
         category.setAuthorName(usersService.currentUserFullname());
 
-        return categoriesService.saveOrUpdate(category);
+        Category savedCategory = categoriesService.saveOrUpdate(category);
+        CategoryTransaction categoryTransaction = new CategoryTransaction(null, "CREATE", savedCategory.getId(),
+                                                                           usersService.currentUserFullname());
+        categoryTransactionService.saveOrUpdate(categoryTransaction);
+        return savedCategory;
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json")
@@ -87,6 +97,10 @@ public class RestCategoriesController {
         if (category.getId() == null || !categoriesService.existsById(category.getId())) {
             throw new ProductNotFoundException("Product not found, id: " + category.getId());
         }
+
+        CategoryTransaction categoryTransaction = new CategoryTransaction(null, "EDIT", category.getId(),
+                                                                           usersService.currentUserFullname());
+        categoryTransactionService.saveOrUpdate(categoryTransaction);
         return new ResponseEntity<>(categoriesService.saveOrUpdate(category), HttpStatus.OK);
     }
 
