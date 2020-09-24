@@ -2,11 +2,14 @@ package com.geekbrains.july.warehouse.controllers.rest;
 
 import com.geekbrains.july.warehouse.entities.Product;
 import com.geekbrains.july.warehouse.entities.DataProductHistory;
+import com.geekbrains.july.warehouse.entities.ProductTransaction;
 import com.geekbrains.july.warehouse.entities.dtos.ProductDto;
 import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
 import com.geekbrains.july.warehouse.repositories.DataProductHistoryRepository;
 import com.geekbrains.july.warehouse.services.DataProductHistoryService;
+import com.geekbrains.july.warehouse.services.ProductTransactionService;
 import com.geekbrains.july.warehouse.services.ProductsService;
+import com.geekbrains.july.warehouse.services.UsersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +27,16 @@ import java.util.List;
 public class RestWarehouseOperationController {
     private ProductsService productsService;
     private DataProductHistoryService dataProductHistoryService;
+    private UsersService usersService;
+    private ProductTransactionService productTransactionService;
 
     @Autowired
-    public RestWarehouseOperationController(ProductsService productsService, DataProductHistoryService dataProductHistoryService) {
+    public RestWarehouseOperationController(ProductsService productsService, DataProductHistoryService dataProductHistoryService,
+                                            UsersService usersService, ProductTransactionService productTransactionService) {
         this.productsService = productsService;
         this.dataProductHistoryService = dataProductHistoryService;
+        this.usersService = usersService;
+        this.productTransactionService = productTransactionService;
     }
 
     @GetMapping(produces = "application/json")
@@ -61,6 +69,10 @@ public class RestWarehouseOperationController {
         DataProductHistory dataProductHistory = new DataProductHistory(null, product.getId(), productReceipts.getQuantity());
         dataProductHistoryService.saveOrUpdate(dataProductHistory);
 
+        ProductTransaction productTransaction = new ProductTransaction(null, "SUPPLY", product.getId(),
+                product.getQuantity(), usersService.currentUserFullname());
+        productTransactionService.saveOrUpdate(productTransaction);
+
         return new ResponseEntity<>(productsService.saveOrUpdate(product), HttpStatus.OK);
     }
 
@@ -81,7 +93,11 @@ public class RestWarehouseOperationController {
 
         DataProductHistory dataProductHistory = new DataProductHistory(null, product.getId(), -productShipment.getQuantity());
         dataProductHistoryService.saveOrUpdate(dataProductHistory);
-        
+
+        ProductTransaction productTransaction = new ProductTransaction(null, "SHIPMENT", product.getId(),
+                product.getQuantity(), usersService.currentUserFullname());
+        productTransactionService.saveOrUpdate(productTransaction);
+
         return new ResponseEntity<>(productsService.saveOrUpdate(product), HttpStatus.OK);
     }
 }

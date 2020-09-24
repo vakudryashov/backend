@@ -35,6 +35,7 @@ public class Product {
     private String units;
 
     @Column(name = "creation_data")
+    @Temporal(TemporalType.DATE)
     private Date creationData;
 
     @Column(name = "image")

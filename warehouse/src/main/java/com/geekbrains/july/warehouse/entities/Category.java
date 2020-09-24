@@ -27,6 +27,7 @@ public class Category {
     private String description;
 
     @Column(name = "creation_data")
+    @Temporal(TemporalType.DATE)
     private Date creationData;
 
     @Column(name = "author")
