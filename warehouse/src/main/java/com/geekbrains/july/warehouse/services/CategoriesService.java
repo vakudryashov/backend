@@ -2,9 +2,11 @@ package com.geekbrains.july.warehouse.services;
 
 import com.geekbrains.july.warehouse.entities.Category;
 import com.geekbrains.july.warehouse.entities.Product;
+import com.geekbrains.july.warehouse.exceptions.CustomException;
 import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
 import com.geekbrains.july.warehouse.repositories.CategoriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +29,11 @@ public class CategoriesService {
     }
 
     public Category saveOrUpdate(Category category) {
-        return categoriesRepository.save(category);
+        try {
+            return categoriesRepository.save(category);
+        }catch(RuntimeException e){
+            throw new CustomException("Не удалось сохранить изменения: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     public Category findById(Long id) {

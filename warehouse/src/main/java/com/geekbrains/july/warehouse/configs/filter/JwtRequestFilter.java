@@ -1,12 +1,12 @@
 package com.geekbrains.july.warehouse.configs.filter;
 
 import com.geekbrains.july.warehouse.configs.JwtTokenUtil;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.geekbrains.july.warehouse.exceptions.CustomException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -34,15 +34,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
         String username = null;
         String jwt = null;
+        CustomException customException = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")){
             jwt = authHeader.substring(7);
             try{
                 username = jwtTokenUtil.getUsernameFromToken(jwt);
             }catch(Exception e){
-                System.out.println("Token is invalid: "+e.getMessage());
+                customException = new CustomException("Token is invalid. " + e.getMessage(), HttpStatus.UNAUTHORIZED);
             }
         }
-
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if (jwtTokenUtil.validateToken(jwt, userDetails)){
@@ -52,6 +52,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(token);
             }
         }
-        filterChain.doFilter(request,response);
+        if (customException != null){
+            response.sendError(401,customException.getMessage());
+        }else{
+            filterChain.doFilter(request,response);
+        }
     }
 }

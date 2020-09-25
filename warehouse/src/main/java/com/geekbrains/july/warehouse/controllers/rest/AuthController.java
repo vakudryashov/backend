@@ -10,15 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Collections;
 
 @RestController
 public class AuthController {
@@ -39,12 +36,13 @@ public class AuthController {
         try{
             authenticate(authRequest.getUsername(),authRequest.getPassword());
         }catch(BadCredentialsException e){
-            throw new CustomException("Доступ запрещён. Проверьте правильность логина и пароля", HttpStatus.FORBIDDEN);
+            throw new CustomException("Доступ запрещён. Проверьте правильность логина и пароля", HttpStatus.UNAUTHORIZED);
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
         String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
     }
+
     private void authenticate(String username, String password){
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
     }

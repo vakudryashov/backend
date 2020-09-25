@@ -27,7 +27,8 @@ public class User {
     @JsonIgnore
     private String confirmPassword;
 
-    private String fullname;
+    private String firstname;
+    private String lastname;
     private String phone;
     private String email;
 
