@@ -2,6 +2,7 @@ package com.geekbrains.july.warehouse.services;
 
 import com.geekbrains.july.warehouse.entities.Role;
 import com.geekbrains.july.warehouse.entities.User;
+import com.geekbrains.july.warehouse.exceptions.CustomException;
 import com.geekbrains.july.warehouse.repositories.RolesRepository;
 import com.geekbrains.july.warehouse.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,8 @@ public class UsersService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = usersRepository.findOneByLogin(username).orElseThrow(() -> new UsernameNotFoundException("Invalid username or password"));
+//        User user = usersRepository.findOneByLogin(username).orElseThrow(() -> new UsernameNotFoundException("Invalid username or password"));
+        User user = usersRepository.findOneByLogin(username).orElseThrow(() -> new CustomException("Invalid username or password",HttpStatus.UNAUTHORIZED));
         return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(),
                 mapRolesToAuthorities(user.getRoles()));
     }
@@ -91,22 +93,5 @@ public class UsersService implements UserDetailsService {
 
     public void delete(User user) {
         usersRepository.delete(user);
-    }
-
-    public String currentUserFullname(){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Object obj = auth.getPrincipal();
-        String username = "";
-        if (obj instanceof UserDetails) {
-            username = ((UserDetails) obj).getUsername();
-        } else {
-            username = obj.toString();
-        }
-        Optional<User> userOpt = findByLogin(username);
-        if (userOpt.isPresent()){
-            User user = userOpt.get();
-            String fullname = user.getFullname();
-            return fullname;
-        } else return null;
     }
 }
