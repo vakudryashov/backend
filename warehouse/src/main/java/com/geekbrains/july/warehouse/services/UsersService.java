@@ -94,4 +94,21 @@ public class UsersService implements UserDetailsService {
     public void delete(User user) {
         usersRepository.delete(user);
     }
+
+    public String currentUserFullname(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Object obj = auth.getPrincipal();
+        String username = "";
+        if (obj instanceof UserDetails) {
+            username = ((UserDetails) obj).getUsername();
+        } else {
+            username = obj.toString();
+        }
+        Optional<User> userOpt = findByLogin(username);
+        if (userOpt.isPresent()){
+            User user = userOpt.get();
+            String fullname = user.getLastname();
+            return fullname;
+        } else return null;
+    }
 }

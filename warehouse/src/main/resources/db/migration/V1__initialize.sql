@@ -34,6 +34,9 @@ foreign key (shipment_id) references shipments(id), foreign key (contractor_id) 
 create table products_history (id bigint NOT NULL AUTO_INCREMENT, products_id bigint not null, quantity int, primary key(id),
 foreign key (products_id) references products(id));
 
+create table products_transaction (id bigint NOT NULL AUTO_INCREMENT, type varchar(25), product_id bigint not null,
+primary key(id), data date, author varchar(255), primary key(id));
+
 create table users (
   id                    bigint NOT NULL AUTO_INCREMENT,
   login                 VARCHAR(50) not null unique,

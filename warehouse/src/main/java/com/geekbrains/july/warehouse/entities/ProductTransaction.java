@@ -26,9 +26,6 @@ public class ProductTransaction {
     @Column(name = "product_id")
     private Long productId;
 
-    @Column(name = "product_quantity")
-    private int productQuantity;
-
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
@@ -36,11 +33,10 @@ public class ProductTransaction {
     @Column(name = "author")
     private String authorName;
 
-    public ProductTransaction(Long id, String type, Long productId, int productQuantity, String authorName) {
+    public ProductTransaction(Long id, String type, Long productId, String authorName) {
         this.id = id;
         this.type = type;
         this.productId = productId;
-        this.productQuantity = productQuantity;
         this.data = new Date();
         this.authorName = authorName;
     }
