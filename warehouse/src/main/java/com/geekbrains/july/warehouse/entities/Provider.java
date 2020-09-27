@@ -4,25 +4,29 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import javax.persistence.*;
 
 
-import java.util.Date;
 
 
 @NoArgsConstructor
 @Setter
 @Getter
+@Entity
+@Table(name = "providers")
 public class Provider {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long id;
 
+    @Column
     private String name;
-
+    @Column
     private String email;
-
+    @Column
     private String phone;
-
-    private Date creationDate;
 
 
 }
