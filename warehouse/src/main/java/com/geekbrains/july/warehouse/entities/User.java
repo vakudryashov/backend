@@ -18,18 +18,24 @@ public class User {
     @Column(name = "id")
     private Long id;
 
+    @Column
     private String login;
 
-    @JsonIgnore
+    //@JsonIgnore
+    @Column
     private String password;
 
     @Transient
-    @JsonIgnore
+    //@JsonIgnore
     private String confirmPassword;
 
+    @Column
     private String firstname;
+    @Column
     private String lastname;
+    @Column
     private String phone;
+    @Column
     private String email;
 
     @ManyToMany
