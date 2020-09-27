@@ -1,6 +1,10 @@
 package com.geekbrains.july.warehouse.services;
 
 import com.geekbrains.july.warehouse.entities.Provider;
+import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
+import com.geekbrains.july.warehouse.repositories.CategoriesRepository;
+import com.geekbrains.july.warehouse.repositories.ProviderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,34 +17,36 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ProviderServiceImpl implements ProviderService{
 
 
-        // Хранилище поставщиков
-        private static final Map<Integer, Provider> PROVIDER_REPOSITORY_MAP = new HashMap<>();
 
-        // Переменная для генерации ID поставщика
-        private static final AtomicInteger PROVIDER_ID_HOLDER = new AtomicInteger();
+        private ProviderRepository providerRepository;
+
+
+
+    @Autowired
+    public void setCategoriesRepository(ProviderRepository providerRepository) {
+        this.providerRepository = providerRepository;
+    }
 
         @Override
-        public void create(Provider provider) {
-            final int providerId = PROVIDER_ID_HOLDER.incrementAndGet();
-            provider.setId(providerId);
-            PROVIDER_REPOSITORY_MAP.put(providerId, provider);
+        public Provider create(Provider provider) {
+            return providerRepository.save(provider);
         }
 
         @Override
         public List<Provider> readAll() {
-            return new ArrayList<>(PROVIDER_REPOSITORY_MAP.values());
+            return providerRepository.findAll();
         }
 
         @Override
-        public Provider read(int id) {
-            return PROVIDER_REPOSITORY_MAP.get(id);
+        public Provider read(Long id) {
+            return providerRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Can't found provider with id = " + id));
         }
 
         @Override
-        public boolean update(Provider provider, int id) {
-            if (PROVIDER_REPOSITORY_MAP.containsKey(id)) {
-                provider.setId(id);
-                PROVIDER_REPOSITORY_MAP.put(id, provider);
+        public boolean update(Provider provider, Long id) {
+            if (providerRepository.existsById(id)) {
+                System.out.println("providerRepository.existsById(id): "+providerRepository.existsById(id));
+                providerRepository.save( provider);
                 return true;
             }
 
@@ -48,8 +54,13 @@ public class ProviderServiceImpl implements ProviderService{
         }
 
         @Override
-        public boolean delete(int id) {
-            return PROVIDER_REPOSITORY_MAP.remove(id) != null;
+        public boolean delete(Long id) {
+
+            if (providerRepository.existsById(id)) {
+                providerRepository.deleteById(id);
+                return true;
+            }
+            return false;
         }
 
 }

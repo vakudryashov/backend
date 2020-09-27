@@ -3,6 +3,7 @@ package com.geekbrains.july.warehouse.services;
 import com.geekbrains.july.warehouse.entities.Role;
 import com.geekbrains.july.warehouse.entities.User;
 import com.geekbrains.july.warehouse.exceptions.CustomException;
+import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
 import com.geekbrains.july.warehouse.repositories.RolesRepository;
 import com.geekbrains.july.warehouse.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,9 +92,51 @@ public class UsersService implements UserDetailsService {
         usersRepository.save(user);
     }
 
+    public User restsave(User user) {
+        if (user.getConfirmPassword() != null){
+            if (user.getConfirmPassword().equals(user.getPassword())) {
+                user.setPassword(pwdEncoder.encode(user.getPassword()));
+            }else{
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Значения полей password и confirmPassword должны быть идентичны");
+            }
+        }
+        return usersRepository.save(user);
+    }
+
+    /**
+     * Возвращает список имеющихся пользователей
+     * @return список пользователей
+     */
+    public List<User> readAll(){
+        return (List<User>) usersRepository.findAll();
+    }
+
+    public User read(Long id){
+        return usersRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Can't found provider with id = " + id));
+    }
+
+    public boolean update(User user, Long id) {
+        if (usersRepository.existsById(id)) {
+            usersRepository.save(user);
+            return true;
+        }
+
+        return false;
+    }
+
     public void delete(User user) {
         usersRepository.delete(user);
     }
+
+    public boolean delete(Long id) {
+        if (usersRepository.existsById(id)) {
+            usersRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+
 
     public String currentUserFullname(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

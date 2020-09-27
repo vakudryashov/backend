@@ -10,7 +10,7 @@ public interface ProviderService {
          * Создает нового поставщика
          * @param provider - поставщик для создания
          */
-        void create(Provider provider);
+        Provider create(Provider provider);
 
         /**
          * Возвращает список всех имеющихся поставщиков
@@ -23,7 +23,7 @@ public interface ProviderService {
          * @param id - ID поставщика
          * @return - объект поставщика с заданным ID
          */
-        Provider read(int id);
+        Provider read(Long id);
 
         /**
          * Обновляет поставщика с заданным ID,
@@ -32,13 +32,13 @@ public interface ProviderService {
          * @param id - id поставщика которого нужно обновить
          * @return - true если данные были обновлены, иначе false
          */
-        boolean update(Provider provider, int id);
+        boolean update(Provider provider, Long id);
 
         /**
          * Удаляет поставщика с заданным ID
          * @param id - id поставщика, которого нужно удалить
          * @return - true если поставщик был удален, иначе false
          */
-        boolean delete(int id);
+        boolean delete(Long id);
 
 }
