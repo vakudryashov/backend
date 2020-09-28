@@ -2,10 +2,13 @@ package com.geekbrains.july.warehouse.controllers.rest;
 
 import com.geekbrains.july.warehouse.entities.Product;
 import com.geekbrains.july.warehouse.entities.ProductTransaction;
+import com.geekbrains.july.warehouse.entities.UserAction;
 import com.geekbrains.july.warehouse.exceptions.CustomException;
 import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
 import com.geekbrains.july.warehouse.services.ProductTransactionService;
 import com.geekbrains.july.warehouse.services.ProductsService;
+import com.geekbrains.july.warehouse.services.UserActionService;
+import com.geekbrains.july.warehouse.services.UsersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +28,16 @@ import java.util.Map;
 public class ProductTransactionsController {
     private ProductTransactionService productTransactionService;
     private ProductsService productsService;
+    private UsersService usersService;
+    private UserActionService userActionService;
 
     @Autowired
-    public ProductTransactionsController(ProductTransactionService productTransactionService, ProductsService productsService) {
+    public ProductTransactionsController(ProductTransactionService productTransactionService, ProductsService productsService,
+                                         UsersService usersService, UserActionService userActionService) {
         this.productTransactionService = productTransactionService;
         this.productsService = productsService;
+        this.usersService = usersService;
+        this.userActionService = userActionService;
     }
 
     @ApiOperation("Returns list of all product transactions")
@@ -62,6 +70,11 @@ public class ProductTransactionsController {
     @ApiOperation("Creates a new supply transaction")
     public List<ProductTransaction> createSupplyTransaction(@RequestBody ProductTransaction productTransaction) {
         productTransactionService.createSupply(productTransaction);
+
+        UserAction userAction = new UserAction(null, "SUPPLY", productTransaction.getProduct().getId(),
+                productTransaction.getProduct().getTitle(),
+                usersService.currentUserFullname());
+        userActionService.saveOrUpdate(userAction);
         return productTransactionService.getSupplyTransactions();
     }
 
@@ -70,6 +83,11 @@ public class ProductTransactionsController {
     @ApiOperation("Creates a new shipment transaction")
     public List<ProductTransaction> createShipmentTransaction(@RequestBody ProductTransaction productTransaction) {
         productTransactionService.createShipment(productTransaction);
+
+        UserAction userAction = new UserAction(null, "SHIPMENT", productTransaction.getProduct().getId(),
+                productTransaction.getProduct().getTitle(),
+                usersService.currentUserFullname());
+        userActionService.saveOrUpdate(userAction);
         return productTransactionService.getShipmentTransactions();
     }
 
