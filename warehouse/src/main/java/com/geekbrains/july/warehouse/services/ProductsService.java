@@ -40,13 +40,13 @@ public class ProductsService {
         boolean isEditable = productsRepository.existsById(product.getId());
         Product savedProduct = productsRepository.save(product);
 
-        UserAction userAction = new UserAction(
-                isEditable ? "Edit" : "Create",
-                new Date(),
-                usersService.findLoggedInUser().get(),
-                savedProduct
-        );
-        userActionService.saveOrUpdate(userAction);
+//        UserAction userAction = new UserAction(
+//                isEditable ? "Edit" : "Create",
+//                new Date(),
+//                usersService.findLoggedInUser().get(),
+//                savedProduct
+//        );
+//        userActionService.saveOrUpdate(userAction);
         return savedProduct;
     }
 

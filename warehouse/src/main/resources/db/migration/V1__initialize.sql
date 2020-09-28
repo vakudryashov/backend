@@ -28,6 +28,10 @@ insert into contractors (title) values ('ООО "Поставщик"'),('ООО 
 create table product_transactions (id bigint NOT NULL AUTO_INCREMENT, transaction_date DATETIME, quantity DECIMAL(13,3), primary key(id));
 insert into product_transactions (transaction_date, quantity) values (now() - 1, 100), (now(), -10);
 
+-- таблица истории действий пользователя
+create table user_actions (id bigint NOT NULL AUTO_INCREMENT, type varchar(25), product_id bigint not null,
+product_name varchar(25), data date, author varchar(255), primary key(id));
+
 -- Вспомогательные таблицы для организации связей между сущностями
 -- связь пользователь - роль
 create table link__users_roles ( user_id BIGINT NOT NULL, role_id BIGINT NOT NULL, primary key (user_id, role_id),

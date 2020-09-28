@@ -1,13 +1,13 @@
 package com.geekbrains.july.warehouse.controllers.rest;
 
 import com.geekbrains.july.warehouse.entities.Product;
-import com.geekbrains.july.warehouse.entities.ProductTransaction;
+import com.geekbrains.july.warehouse.entities.UserAction;
 import com.geekbrains.july.warehouse.entities.dtos.ErrorDto;
 import com.geekbrains.july.warehouse.entities.dtos.ProductDto;
 import com.geekbrains.july.warehouse.exceptions.CustomException;
 import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
-import com.geekbrains.july.warehouse.services.ProductTransactionService;
 import com.geekbrains.july.warehouse.services.ProductsService;
+import com.geekbrains.july.warehouse.services.UserActionService;
 import com.geekbrains.july.warehouse.services.UsersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,14 +25,14 @@ import java.util.List;
 public class ProductsController {
     private ProductsService productsService;
     private UsersService usersService;
-    private ProductTransactionService productTransactionService;
+    private UserActionService userActionService;
 
     @Autowired
     public ProductsController(ProductsService productsService, UsersService usersService,
-                                  ProductTransactionService productTransactionService) {
+                                  UserActionService userActionService) {
         this.productsService = productsService;
         this.usersService = usersService;
-        this.productTransactionService = productTransactionService;
+        this.userActionService = userActionService;
     }
 
     @GetMapping("/dto")
@@ -60,6 +60,10 @@ public class ProductsController {
     @ApiOperation("Creates a new product")
     public List<Product> saveNewProduct(@RequestBody Product product) {
         productsService.saveOrUpdate(product);
+
+        UserAction userAction = new UserAction(null, "CREATE", product.getId(), product.getTitle(),
+                                               usersService.currentUserFullname());
+        userActionService.saveOrUpdate(userAction);
         return productsService.findAll();
     }
 
@@ -70,6 +74,10 @@ public class ProductsController {
             throw new ProductNotFoundException("Product not found, id: " + product.getId());
         }
         productsService.saveOrUpdate(product);
+
+        UserAction userAction = new UserAction(null, "EDIT", product.getId(), product.getTitle(),
+                usersService.currentUserFullname());
+        userActionService.saveOrUpdate(userAction);
         return productsService.findAll();
     }
 

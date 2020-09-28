@@ -16,25 +16,28 @@ public class UserAction {
     @Column(name = "id")
     private Long id;
 
-    private String title;
-    private Date actionDate;
+    @Column(name = "type")
+    private String type;
 
-    @ManyToOne
-    @JoinTable(name = "link__actions_users",
-            joinColumns = @JoinColumn(name = "action_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private User user;
+    @Column(name = "product_id")
+    private Long productId;
 
-    @ManyToOne
-    @JoinTable(name = "link__actions_products",
-            joinColumns = @JoinColumn(name = "action_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Product product;
+    @Column(name = "product_name")
+    private String productName;
 
-    public UserAction(String title, Date actionDate, User user, Product product) {
-        this.title = title;
-        this.actionDate = actionDate;
-        this.user = user;
-        this.product = product;
+    @Column(name = "data")
+    @Temporal(TemporalType.DATE)
+    private Date data;
+
+    @Column(name = "author")
+    private String authorName;
+
+    public UserAction(Long id, String type, Long productId, String productName, String authorName) {
+        this.id = id;
+        this.type = type;
+        this.productId = productId;
+        this.productName = productName;
+        this.data = new Date();
+        this.authorName = authorName;
     }
 }
