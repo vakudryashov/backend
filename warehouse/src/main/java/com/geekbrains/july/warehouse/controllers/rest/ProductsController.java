@@ -56,51 +56,20 @@ public class ProductsController {
         return productsService.findById(id);
     }
 
-    @DeleteMapping
-    @ApiOperation("Removes all products")
-    public List<Product> deleteAllProducts() {
-        productsService.deleteAll();
-        return productsService.findAll();
-    }
-
-    @DeleteMapping("/{id}")
-    @ApiOperation("Removes one product by id")
-    public List<Product> deleteOneProducts(@PathVariable Long id) {
-        productsService.deleteById(id);
-
-        ProductTransaction productTransaction = new ProductTransaction(null, "DELETE", id, usersService.currentUserFullname());
-        productTransactionService.saveOrUpdate(productTransaction);
-        return productsService.findAll();
-    }
-
     @PostMapping(consumes = "application/json", produces = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    @ResponseBody
     @ApiOperation("Creates a new product")
     public List<Product> saveNewProduct(@RequestBody Product product) {
-        if (product.getId() != null) {
-            product.setId(null);
-        }
         productsService.saveOrUpdate(product);
-
-        ProductTransaction productTransaction = new ProductTransaction(null, "CREATE", product.getId(),
-                                                                        usersService.currentUserFullname());
-        productTransactionService.saveOrUpdate(productTransaction);
         return productsService.findAll();
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json")
-    @ResponseBody
     @ApiOperation("Modifies an existing product")
     public List<Product> modifyProduct(@RequestBody Product product) {
         if (product.getId() == null || !productsService.existsById(product.getId())) {
             throw new ProductNotFoundException("Product not found, id: " + product.getId());
         }
         productsService.saveOrUpdate(product);
-
-        ProductTransaction productTransaction = new ProductTransaction(null, "EDIT", product.getId(),
-                                                                        usersService.currentUserFullname());
-        productTransactionService.saveOrUpdate(productTransaction);
         return productsService.findAll();
     }
 

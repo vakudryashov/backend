@@ -1,6 +1,8 @@
 package com.geekbrains.july.warehouse.controllers.rest;
 
+import com.geekbrains.july.warehouse.entities.Product;
 import com.geekbrains.july.warehouse.entities.ProductTransaction;
+import com.geekbrains.july.warehouse.exceptions.CustomException;
 import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
 import com.geekbrains.july.warehouse.services.ProductTransactionService;
 import com.geekbrains.july.warehouse.services.ProductsService;
@@ -14,10 +16,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/v1/transactions/products")
+@RequestMapping("/api/v1/transactions")
 @Api("Set of endpoints for CRUD operations for Products Transaction")
 public class ProductTransactionsController {
     private ProductTransactionService productTransactionService;
@@ -29,29 +32,45 @@ public class ProductTransactionsController {
         this.productsService = productsService;
     }
 
-    @GetMapping(produces = "application/json")
     @ApiOperation("Returns list of all product transactions")
+    @GetMapping
     public List<ProductTransaction> getAllProductTransactions() {
         return productTransactionService.getAllTransactions();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
-    @ApiOperation("Returns transactions by product id")
-    public ResponseEntity<?> getOneProductTransactions(@PathVariable Long id) {
-        return new ResponseEntity<>(productTransactionService.getProductTransactions(id), HttpStatus.OK);
+    @GetMapping("/supply")
+    @ApiOperation("Returns list of all product supply transactions")
+    public List<ProductTransaction> getProductSupplyTransactions() {
+        return productTransactionService.getSupplyTransactions();
     }
 
-    @GetMapping(value = "/author", produces = "application/json")
-    @ApiOperation("Returns transactions by author")
-    public ResponseEntity<?> getAuthorTransactions(@RequestParam (name = "author") String author) {
-        return new ResponseEntity<>(productTransactionService.getAuthorTransactions(author), HttpStatus.OK);
+    @GetMapping("/shipment")
+    @ApiOperation("Returns list of all product shipment transactions")
+    public List<ProductTransaction> getProductShipmentTransactions() {
+        return productTransactionService.getShipmentTransactions();
     }
 
-    @GetMapping(value = "/data", produces = "application/json")
-    @ApiOperation("Returns transactions by data")
-    public ResponseEntity<?> getDataTransactions(@RequestParam ("data")
-                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date data) {
-        return new ResponseEntity<>(productTransactionService.getDateTransactions(data), HttpStatus.OK);
+    @GetMapping("/product/{id}")
+    @ApiOperation("Returns list of all product transactions by product.id")
+    public List<ProductTransaction> getTransactionsByProduct(@PathVariable Long id) {
+        Product product = productsService.findById(id);
+        if (product == null) throw new CustomException(String.format("Can't find product by id=%d",id), HttpStatus.NOT_FOUND);
+        return productTransactionService.getTransactionsByProduct(product);
+    }
+
+    @PostMapping("/supply")
+    @ApiOperation("Creates a new supply transaction")
+    public List<ProductTransaction> createSupplyTransaction(@RequestBody ProductTransaction productTransaction) {
+        productTransactionService.createSupply(productTransaction);
+        return productTransactionService.getSupplyTransactions();
+    }
+
+
+    @PostMapping("/shipment")
+    @ApiOperation("Creates a new shipment transaction")
+    public List<ProductTransaction> createShipmentTransaction(@RequestBody ProductTransaction productTransaction) {
+        productTransactionService.createShipment(productTransaction);
+        return productTransactionService.getShipmentTransactions();
     }
 
     @ExceptionHandler

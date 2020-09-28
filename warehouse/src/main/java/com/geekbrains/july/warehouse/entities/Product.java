@@ -20,23 +20,16 @@ public class Product {
     private String title;
 
     @ManyToMany
-    @JoinTable(name = "products_categories",
+    @JoinTable(name = "link__products_categories",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
 
     @ManyToOne
-    @JoinTable(name = "products_units",
+    @JoinTable(name = "link__products_units",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "unit_id"))
-    private Unit measure;
-
-    @ManyToOne
-    @JoinTable(name = "products_contractors",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "contractor_id"))
-    private Contractor contractor;
-
+    private Unit unit;
 
     public Product(Long id, String title, String description, int quantity) {
         this.id = id;

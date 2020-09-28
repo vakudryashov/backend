@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "funds")
+@Table(name = "view__funds")
 @Getter
 @NoArgsConstructor
 public class Fund {
@@ -21,6 +21,6 @@ public class Fund {
             inverseJoinColumns = @JoinColumn(name = "id"))
     private Product product;
 
-    @Column(name = "balance")
+    @Column(name = "quantity")
     private Double balance;
 }

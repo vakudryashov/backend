@@ -1,12 +1,15 @@
 package com.geekbrains.july.warehouse.controllers.rest;
 
 import com.geekbrains.july.warehouse.entities.Fund;
+import com.geekbrains.july.warehouse.entities.Product;
 import com.geekbrains.july.warehouse.entities.dtos.ErrorDto;
 import com.geekbrains.july.warehouse.exceptions.CustomException;
 import com.geekbrains.july.warehouse.services.FundService;
+import com.geekbrains.july.warehouse.services.ProductsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +22,29 @@ public class FundsController {
     @Autowired
     private FundService fundService;
 
-    @GetMapping(produces = "application/json")
+    @Autowired
+    private ProductsService productsService;
+
+
     @ApiOperation("Returns list of all funds")
+    @GetMapping
     public List<Fund> getAllFunds() {
         return fundService.findAll();
     }
-    
+
+    @ApiOperation("Returns fund by Product.id")
+    @GetMapping("/product/{var}")
+    public Fund getFundByProductId(@PathVariable String var) {
+        Product product;
+        try{
+            product =  productsService.findById(Long.parseLong(var));
+        } catch (NumberFormatException e){
+            product =  productsService.findByTitle(var);
+        }
+        if (product == null) throw new CustomException(String.format("Can't find product by \"%s\"",var), HttpStatus.NOT_FOUND);
+        return fundService.findByProductId(product.getId());
+    }
+
     @ExceptionHandler
     public ResponseEntity<?> handleException(CustomException exception){
         return new ResponseEntity<>(new ErrorDto(exception.getMessage()),exception.getStatus());
