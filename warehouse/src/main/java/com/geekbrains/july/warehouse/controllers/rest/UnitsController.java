@@ -19,37 +19,37 @@ import java.util.List;
 @Api("Set of endpoints for CRUD operations for Posting")
 public class UnitsController {
     @Autowired
-    private UnitService measureService;
+    private UnitService unitService;
 
     @GetMapping(produces = "application/json")
-    @ApiOperation("Returns list of all units")
-    public List<Unit> getAllMeasures() {
-        return measureService.findAll();
+    @ApiOperation("Returns list of all s")
+    public List<Unit> getAllUnits() {
+        return unitService.findAll();
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation("Creates a new measure")
-    public List<Unit> createNomenclature(@RequestBody Unit measure) {
-        measureService.saveOrUpdate(measure);
-        return measureService.findAll();
+    @ApiOperation("Creates a new unit")
+    public List<Unit> createUnit(@RequestBody Unit unit) {
+        unitService.saveOrUpdate(unit);
+        return unitService.findAll();
     }
 
     @DeleteMapping("/{id}")
-    @ApiOperation("Removes one measure by id")
+    @ApiOperation("Removes one unit by id")
     public List<Unit> deleteOneProducts(@PathVariable Long id) {
-        measureService.deleteById(id);
-        return measureService.findAll();
+        unitService.deleteById(id);
+        return unitService.findAll();
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json")
-    @ApiOperation("Modifies an existing measure")
-    public List<Unit> modifyCategory(@RequestBody Unit measure) {
-        if (measure.getId() == null || !measureService.existsById(measure.getId())) {
-            throw new ProductNotFoundException("Product not found, id: " + measure.getId());
+    @ApiOperation("Modifies an existing unit")
+    public List<Unit> modifyUnit(@RequestBody Unit unit) {
+        if (unit.getId() == null || !unitService.existsById(unit.getId())) {
+            throw new CustomException("Unit not found, id: " + unit.getId(), HttpStatus.NOT_FOUND);
         }
-        measureService.saveOrUpdate(measure);
-        return measureService.findAll();
+        unitService.saveOrUpdate(unit);
+        return unitService.findAll();
     }
     @ExceptionHandler
     public ResponseEntity<?> handleException(CustomException exception){

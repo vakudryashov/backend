@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "units")
+
 @Data
 @NoArgsConstructor
 public class Unit {
@@ -15,5 +16,6 @@ public class Unit {
     @Column(name = "id")
     private Long id;
 
+    @Column(unique = true)
     private String title;
 }

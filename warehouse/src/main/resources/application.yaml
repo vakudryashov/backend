@@ -1,20 +1,9 @@
-server:
-  port: 8189
 spring:
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:warehouse
-    username: warehouse
-    password:
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    show-sql: false
-  thymeleaf:
-    encoding: UTF-8
+  profiles:
+    active: dev
   messages:
     basename: validation
-  h2:
-    console:
-      enabled: true
+server:
+  port: 8189
 jwt:
   secret: SXQnc015U2VjcmV0S2V5MWQ5OFQ3Y2lqaGFzODd5am5iY2l1eTdTM2RhOXs4eWNramhrajM3a2poRmRpOHlxamtoamtraixtamxranpDZGY7ams7al5sa2pmamtnYmV3dWloa2pubCQ7ZmlvaHdlaWhq

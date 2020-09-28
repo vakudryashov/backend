@@ -1,43 +1,42 @@
 package com.geekbrains.july.warehouse.entities;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "products_transaction")
+@Table(name = "product_transactions")
 @Data
 @NoArgsConstructor
-@Setter
-@Getter
 public class ProductTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "type")
-    private String type;
+    @Column(name = "transaction_date")
+    private Date transactionDate;
 
-    @Column(name = "product_id")
-    private Long productId;
+    @ManyToOne
+    @JoinTable(name = "link__transactions_products",
+            joinColumns = @JoinColumn(name = "transaction_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private Product product;
 
-    @Column(name = "data")
-    @Temporal(TemporalType.DATE)
-    private Date data;
+    @ManyToOne
+    @JoinTable(name = "link__transactions_contractors",
+            joinColumns = @JoinColumn(name = "transaction_id"),
+            inverseJoinColumns = @JoinColumn(name = "contractor_id"))
+    private Contractor contractor;
 
-    @Column(name = "author")
-    private String authorName;
+    @Column(name="quantity")
+    private double quantity;
 
-    public ProductTransaction(Long id, String type, Long productId, String authorName) {
-        this.id = id;
-        this.type = type;
-        this.productId = productId;
-        this.data = new Date();
-        this.authorName = authorName;
-    }
+    @ManyToOne
+    @JoinTable(name = "link__transactions_users",
+            joinColumns = @JoinColumn(name = "transaction_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private User user;
 }

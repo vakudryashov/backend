@@ -1,118 +1,77 @@
+-- таблица пользователей приложения
+create table users ( id bigint NOT NULL AUTO_INCREMENT, login VARCHAR(50) not null unique, password VARCHAR(80) not null, firstname VARCHAR(50), lastname VARCHAR(50), phone VARCHAR(30), email VARCHAR(50), PRIMARY KEY (id) );
+insert into users (login,password, firstname, lastname, phone, email)
+values ('admin', '$2a$10$iIngXqEsF7aTmZ4IvPZs/enNAba47.OOq5OlqWpQM3JGdlrPCuHTS','Иван', 'Иванов', '+7 (987) 654-32-10', 'admin@example.com');
+-- пароль: admin
+
+-- таблица ролей пользователя приложения
+create table roles ( id bigint NOT NULL AUTO_INCREMENT, name VARCHAR(50) not null, primary key (id));
+insert into roles (name) values('ROLE_CUSTOMER'), ('ROLE_MANAGER'), ('ROLE_ADMIN');
+
+-- таблица товаров
 create table products (id bigint NOT NULL AUTO_INCREMENT, title varchar(255), primary key(id));
 insert into products (title) values ('Шляпа'), ('Панама'), ('Очки');
 
+-- таблица категорий товаров
 create table categories (id bigint NOT NULL AUTO_INCREMENT, title varchar(255) NOT NULL, primary key(id));
 insert into categories (title) values ('Головные уборы'), ('Оптика');
 
-create table products_categories (product_id bigint not null, category_id bigint not null, primary key(product_id, category_id),
-foreign key (product_id) references products(id), foreign key (category_id) references categories(id));
-insert into products_categories (product_id, category_id) values (1, 1), (2, 1), (3, 2);
-
-CREATE TABLE units (id bigint NOT NULL AUTO_INCREMENT, title VARCHAR(40) NULL, PRIMARY KEY (id));
+-- таблица единиц измерения количества товаром
+CREATE TABLE units (id bigint NOT NULL AUTO_INCREMENT, title VARCHAR(40) NOT NULL UNIQUE, PRIMARY KEY (id));
 insert into units (title) values ('шт');
-create table products_units (product_id bigint not null, unit_id bigint not null, primary key(product_id, unit_id),
-foreign key (product_id) references products(id), foreign key (unit_id) references units(id));
-insert into products_units values (1,1),(2,1),(3,1);
 
+-- таблица контрагентов
 CREATE TABLE contractors (id bigint NOT NULL AUTO_INCREMENT, title VARCHAR(255) NULL, PRIMARY KEY (id));
 insert into contractors (title) values ('ООО "Поставщик"'),('ООО "Получатель"');
-create table products_contractors (product_id bigint not null, contractor_id bigint not null, primary key(product_id, contractor_id),
-foreign key (product_id) references products(id), foreign key (contractor_id) references contractors(id));
-insert into products_contractors values (1,1),(2,1),(3,1);
 
-CREATE TABLE postings (id bigint NOT NULL AUTO_INCREMENT, posting_date DATETIME, quantity DECIMAL(12,3) UNSIGNED, PRIMARY KEY (id));
-create table postings_products (posting_id bigint not null, product_id bigint not null, primary key(posting_id, product_id),
-foreign key (posting_id) references postings(id), foreign key (product_id) references products(id));
+-- таблица транзакций товаров (поступления и отгрузки)
+create table product_transactions (id bigint NOT NULL AUTO_INCREMENT, transaction_date DATETIME, quantity DECIMAL(13,3), primary key(id));
+insert into product_transactions (transaction_date, quantity) values (now() - 1, 100), (now(), -10);
 
-CREATE TABLE shipments (id bigint NOT NULL AUTO_INCREMENT, shipment_date DATETIME, quantity DECIMAL(12,3) UNSIGNED, PRIMARY KEY (id));
-create table shipments_products (shipment_id bigint not null, product_id bigint not null, primary key(shipment_id, product_id),
-foreign key (shipment_id) references shipments(id), foreign key (product_id) references products(id));
+-- Вспомогательные таблицы для организации связей между сущностями
+-- связь пользователь - роль
+create table link__users_roles ( user_id BIGINT NOT NULL, role_id BIGINT NOT NULL, primary key (user_id, role_id),
+FOREIGN KEY (user_id) REFERENCES users (id), FOREIGN KEY (role_id) REFERENCES roles (id) );
+insert into link__users_roles (user_id, role_id) values (1, 1), (1, 2), (1, 3);
 
-create table shipments_contractors (shipment_id bigint not null, contractor_id bigint not null, primary key(shipment_id, contractor_id),
-foreign key (shipment_id) references shipments(id), foreign key (contractor_id) references contractors(id));
+-- связь товар - категория
+create table link__products_categories (product_id bigint not null, category_id bigint not null, primary key(product_id, category_id),
+foreign key (product_id) references products(id), foreign key (category_id) references categories(id));
+insert into link__products_categories (product_id, category_id) values (1, 1), (2, 1), (3, 2);
 
-create table products_history (id bigint NOT NULL AUTO_INCREMENT, products_id bigint not null, quantity int, primary key(id),
-foreign key (products_id) references products(id));
+-- связь товар - единица изерения
+create table link__products_units (product_id bigint not null, unit_id bigint not null, primary key(product_id, unit_id),
+foreign key (product_id) references products(id), foreign key (unit_id) references units(id));
+insert into link__products_units values (1,1),(2,1),(3,1);
 
-create table products_transaction (id bigint NOT NULL AUTO_INCREMENT, type varchar(25), product_id bigint not null,
-primary key(id), data date, author varchar(255), primary key(id));
+-- связь транзакция - товар
+create table link__transactions_products (transaction_id bigint not null, product_id bigint not null, primary key(transaction_id, product_id),
+foreign key (transaction_id) references product_transactions(id), foreign key (product_id) references products(id));
+insert into link__transactions_products values (1, 1),(2,1);
 
-create table users (
-  id                    bigint NOT NULL AUTO_INCREMENT,
-  login                 VARCHAR(50) not null unique,
-  password              VARCHAR(80) not null,
-  firstname              VARCHAR(50),
-  lastname              VARCHAR(50),
-  phone                 VARCHAR(30),
-  email                 VARCHAR(50),
-  PRIMARY KEY (id)
-);
+-- связь транзакция - контрагент
+create table link__transactions_contractors (transaction_id bigint not null, contractor_id bigint not null, primary key(transaction_id, contractor_id),
+foreign key (transaction_id) references product_transactions(id), foreign key (contractor_id) references contractors(id));
+insert into link__transactions_contractors values (1, 1),(2,2);
 
-create table roles (
-  id                    bigint NOT NULL AUTO_INCREMENT,
-  name                  VARCHAR(50) not null,
-  primary key (id)
-);
+-- связь транзакция - пользователь приложения, проведший транзакцию
+create table link__transactions_users (transaction_id bigint not null, user_id bigint not null, primary key(transaction_id, user_id),
+foreign key (transaction_id) references product_transactions(id), foreign key (user_id) references users(id));
+insert into link__transactions_users values (1, 1),(2,1);
 
-create table users_roles (
-  user_id               BIGINT NOT NULL,
-  role_id               BIGINT NOT NULL,
-  primary key (user_id, role_id),
-  FOREIGN KEY (user_id)
-  REFERENCES users (id),
-  FOREIGN KEY (role_id)
-  REFERENCES roles (id)
-);
-
-insert into roles (name)
-values
-('ROLE_CUSTOMER'), ('ROLE_MANAGER'), ('ROLE_ADMIN');
-
-insert into users (login,password, firstname, lastname, phone, email)
-values
-
--- ('11111111','$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i','admin','admin','admin@gmail.com');
--- пароль: admin
-
-('admin', '$2a$10$iIngXqEsF7aTmZ4IvPZs/enNAba47.OOq5OlqWpQM3JGdlrPCuHTS','Иван', 'Иванов', '+7 (987) 654-32-10', 'admin@example.com');
-
-insert into users_roles (user_id, role_id)
-values
-(1, 1),
-(1, 2),
-(1, 3);
-
-create table postings_users (posting_id bigint not null, user_id bigint not null, primary key(posting_id, user_id),
-foreign key (posting_id) references postings(id), foreign key (user_id) references users(id));
-
-create table shipments_users (shipment_id bigint not null, user_id bigint not null, primary key(shipment_id, user_id),
-foreign key (shipment_id) references shipments(id), foreign key (user_id) references users(id));
-
-CREATE VIEW funds AS
-select postings.id, product_title, unit_title, (positive-ifnull(negative,0)) as balance
-from (
-	select pr.id, pr.title as product_title, sum(ps.quantity) positive, ms.title as unit_title
-	from products pr
-	join postings ps on 1 = 1
-	join postings_products pspr on 1 = 1
-		and pspr.product_id = pr.id
-		and pspr.posting_id = ps.id
-	join units ms on 1 = 1
-	join products_units prms on 1 = 1
-		and prms.product_id = pr.id
-		and prms.unit_id = ms.id
-	group by pr.id) as postings
-left join (
-	select pr.id, sum(sh.quantity) negative
-	from products pr
-	join shipments sh on 1 = 1
-	join shipments_products shpr on 1 = 1
-		and shpr.product_id = pr.id
-		and shpr.shipment_id = sh.id
-	join units ms on 1 = 1
-	join products_units prms on 1 = 1
-		and prms.product_id = pr.id
-		and prms.unit_id = ms.id
-	group by pr.id) shipments on 1 = 1
-and postings.id = shipments.id
-where positive > ifnull(negative,0);
+-- представления (view) данных
+-- остатки товаров на складе
+create view view__funds as
+select
+    prod.id as id,
+    sum(trans.quantity) as quantity
+from products prod
+join product_transactions trans on 1 = 1
+join link__transactions_products l_tp on 1 = 1
+    and l_tp.product_id = prod.id
+    and l_tp.transaction_id = trans.id
+join units on 1 = 1
+join link__products_units l_pu on 1 = 1
+    and l_pu.product_id = prod.id
+    and l_pu.unit_id = units.id
+group by prod.id;
