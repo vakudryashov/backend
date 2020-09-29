@@ -17,16 +17,17 @@ create table categories (id bigint NOT NULL AUTO_INCREMENT, title varchar(255) N
 insert into categories (title) values ('Головные уборы'), ('Оптика');
 
 -- таблица единиц измерения количества товаром
-CREATE TABLE units (id bigint NOT NULL AUTO_INCREMENT, title VARCHAR(40) NOT NULL UNIQUE, PRIMARY KEY (id));
-insert into units (title) values ('шт');
+CREATE TABLE units (id bigint NOT NULL AUTO_INCREMENT, title VARCHAR(40) NOT NULL UNIQUE, description varchar(255), PRIMARY KEY (id));
+insert into units (title, description) values ('шт', 'штуки');
 
 -- таблица контрагентов
 CREATE TABLE contractors (id bigint NOT NULL AUTO_INCREMENT, title VARCHAR(255) NULL, PRIMARY KEY (id));
 insert into contractors (title) values ('ООО "Поставщик"'),('ООО "Получатель"');
 
 -- таблица транзакций товаров (поступления и отгрузки)
-create table product_transactions (id bigint NOT NULL AUTO_INCREMENT, transaction_date DATETIME, quantity DECIMAL(13,3), primary key(id));
-insert into product_transactions (transaction_date, quantity) values (now() - 1, 100), (now(), -10);
+create table product_transactions (id bigint NOT NULL AUTO_INCREMENT, transaction_date DATETIME, quantity DECIMAL(13,3),
+comment varchar(255), primary key(id));
+insert into product_transactions (transaction_date, quantity, comment) values (now() - 1, 100, 'за полцены'), (now(), -10, 'в долг');
 
 -- таблица истории действий пользователя
 create table user_actions (id bigint NOT NULL AUTO_INCREMENT, type varchar(25), product_id bigint not null,

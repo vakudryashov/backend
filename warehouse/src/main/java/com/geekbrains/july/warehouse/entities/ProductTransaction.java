@@ -34,6 +34,9 @@ public class ProductTransaction {
     @Column(name="quantity")
     private double quantity;
 
+    @Column(name = "comment")
+    private String comment;
+
     @ManyToOne
     @JoinTable(name = "link__transactions_users",
             joinColumns = @JoinColumn(name = "transaction_id"),

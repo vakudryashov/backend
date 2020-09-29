@@ -18,4 +18,7 @@ public class Unit {
 
     @Column(unique = true)
     private String title;
+
+    @Column(name = "description")
+    private String description;
 }

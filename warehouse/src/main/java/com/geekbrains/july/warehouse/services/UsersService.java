@@ -82,24 +82,12 @@ public class UsersService implements UserDetailsService {
     }
 
     public void save(User user) {
-        if (user.getConfirmPassword() != null){
-            if (user.getConfirmPassword().equals(user.getPassword())) {
-                user.setPassword(pwdEncoder.encode(user.getPassword()));
-            }else{
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Значения полей password и confirmPassword должны быть идентичны");
-            }
-        }
+        user.setPassword(pwdEncoder.encode(user.getPassword()));
         usersRepository.save(user);
     }
 
     public User restsave(User user) {
-        if (user.getConfirmPassword() != null){
-            if (user.getConfirmPassword().equals(user.getPassword())) {
-                user.setPassword(pwdEncoder.encode(user.getPassword()));
-            }else{
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Значения полей password и confirmPassword должны быть идентичны");
-            }
-        }
+        user.setPassword(pwdEncoder.encode(user.getPassword()));
         return usersRepository.save(user);
     }
 

@@ -25,10 +25,6 @@ public class User {
     @Column
     private String password;
 
-    @Transient
-    //@JsonIgnore
-    private String confirmPassword;
-
     @Column
     private String firstname;
     @Column
