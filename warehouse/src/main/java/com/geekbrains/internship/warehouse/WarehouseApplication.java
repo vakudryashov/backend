@@ -1,4 +1,4 @@
-package com.geekbrains.july.warehouse;
+package com.geekbrains.internship.warehouse;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

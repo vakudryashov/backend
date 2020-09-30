@@ -1,4 +1,4 @@
-package com.geekbrains.july.warehouse.configs;
+package com.geekbrains.internship.warehouse.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

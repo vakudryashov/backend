@@ -1,11 +1,10 @@
-package com.geekbrains.july.warehouse.repositories;
+package com.geekbrains.internship.warehouse.repositories;
 
-import com.geekbrains.july.warehouse.entities.Product;
-import com.geekbrains.july.warehouse.entities.ProductTransaction;
+import com.geekbrains.internship.warehouse.entities.Product;
+import com.geekbrains.internship.warehouse.entities.ProductTransaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 
 @Repository

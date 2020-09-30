@@ -1,7 +1,7 @@
-package com.geekbrains.july.warehouse.services;
+package com.geekbrains.internship.warehouse.services;
 
-import com.geekbrains.july.warehouse.entities.Role;
-import com.geekbrains.july.warehouse.repositories.RolesRepository;
+import com.geekbrains.internship.warehouse.entities.Role;
+import com.geekbrains.internship.warehouse.repositories.RolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

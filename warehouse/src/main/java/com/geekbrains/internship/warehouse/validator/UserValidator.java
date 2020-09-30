@@ -1,7 +1,7 @@
-package com.geekbrains.july.warehouse.validator;
+package com.geekbrains.internship.warehouse.validator;
 
-import com.geekbrains.july.warehouse.entities.User;
-import com.geekbrains.july.warehouse.services.UsersService;
+import com.geekbrains.internship.warehouse.entities.User;
+import com.geekbrains.internship.warehouse.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

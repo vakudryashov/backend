@@ -1,11 +1,11 @@
-package com.geekbrains.july.warehouse.services;
+package com.geekbrains.internship.warehouse.services;
 
-import com.geekbrains.july.warehouse.entities.Role;
-import com.geekbrains.july.warehouse.entities.User;
-import com.geekbrains.july.warehouse.exceptions.CustomException;
-import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
-import com.geekbrains.july.warehouse.repositories.RolesRepository;
-import com.geekbrains.july.warehouse.repositories.UsersRepository;
+import com.geekbrains.internship.warehouse.entities.Role;
+import com.geekbrains.internship.warehouse.entities.User;
+import com.geekbrains.internship.warehouse.exceptions.CustomException;
+import com.geekbrains.internship.warehouse.exceptions.ProductNotFoundException;
+import com.geekbrains.internship.warehouse.repositories.RolesRepository;
+import com.geekbrains.internship.warehouse.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -18,7 +18,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Collectors;

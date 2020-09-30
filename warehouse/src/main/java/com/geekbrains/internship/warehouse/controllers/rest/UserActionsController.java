@@ -1,8 +1,7 @@
-package com.geekbrains.july.warehouse.controllers.rest;
+package com.geekbrains.internship.warehouse.controllers.rest;
 
-import com.geekbrains.july.warehouse.entities.Unit;
-import com.geekbrains.july.warehouse.entities.UserAction;
-import com.geekbrains.july.warehouse.services.UserActionService;
+import com.geekbrains.internship.warehouse.entities.UserAction;
+import com.geekbrains.internship.warehouse.services.UserActionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

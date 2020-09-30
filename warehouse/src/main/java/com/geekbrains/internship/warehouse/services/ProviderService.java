@@ -1,6 +1,6 @@
-package com.geekbrains.july.warehouse.services;
+package com.geekbrains.internship.warehouse.services;
 
-import com.geekbrains.july.warehouse.entities.Provider;
+import com.geekbrains.internship.warehouse.entities.Provider;
 
 import java.util.List;
 

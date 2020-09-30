@@ -1,10 +1,9 @@
-package com.geekbrains.july.warehouse.entities;
+package com.geekbrains.internship.warehouse.entities;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "view__funds")

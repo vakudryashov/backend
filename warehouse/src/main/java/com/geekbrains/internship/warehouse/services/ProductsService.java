@@ -1,9 +1,10 @@
-package com.geekbrains.july.warehouse.services;
+package com.geekbrains.internship.warehouse.services;
 
-import com.geekbrains.july.warehouse.entities.*;
-import com.geekbrains.july.warehouse.entities.dtos.ProductDto;
-import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
-import com.geekbrains.july.warehouse.repositories.ProductsRepository;
+import com.geekbrains.internship.warehouse.entities.Category;
+import com.geekbrains.internship.warehouse.entities.Product;
+import com.geekbrains.internship.warehouse.entities.dtos.ProductDto;
+import com.geekbrains.internship.warehouse.exceptions.ProductNotFoundException;
+import com.geekbrains.internship.warehouse.repositories.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

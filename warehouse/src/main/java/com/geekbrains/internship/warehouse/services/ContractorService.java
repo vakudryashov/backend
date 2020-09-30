@@ -1,7 +1,7 @@
-package com.geekbrains.july.warehouse.services;
+package com.geekbrains.internship.warehouse.services;
 
-import com.geekbrains.july.warehouse.entities.Contractor;
-import com.geekbrains.july.warehouse.repositories.ContractorRepository;
+import com.geekbrains.internship.warehouse.entities.Contractor;
+import com.geekbrains.internship.warehouse.repositories.ContractorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

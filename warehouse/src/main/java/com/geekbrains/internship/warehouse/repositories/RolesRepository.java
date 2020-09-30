@@ -1,7 +1,7 @@
-package com.geekbrains.july.warehouse.repositories;
+package com.geekbrains.internship.warehouse.repositories;
 
 
-import com.geekbrains.july.warehouse.entities.Role;
+import com.geekbrains.internship.warehouse.entities.Role;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

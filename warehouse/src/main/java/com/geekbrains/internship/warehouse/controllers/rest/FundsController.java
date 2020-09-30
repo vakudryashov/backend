@@ -1,11 +1,11 @@
-package com.geekbrains.july.warehouse.controllers.rest;
+package com.geekbrains.internship.warehouse.controllers.rest;
 
-import com.geekbrains.july.warehouse.entities.Fund;
-import com.geekbrains.july.warehouse.entities.Product;
-import com.geekbrains.july.warehouse.entities.dtos.ErrorDto;
-import com.geekbrains.july.warehouse.exceptions.CustomException;
-import com.geekbrains.july.warehouse.services.FundService;
-import com.geekbrains.july.warehouse.services.ProductsService;
+import com.geekbrains.internship.warehouse.entities.Fund;
+import com.geekbrains.internship.warehouse.entities.Product;
+import com.geekbrains.internship.warehouse.entities.dtos.ErrorDto;
+import com.geekbrains.internship.warehouse.exceptions.CustomException;
+import com.geekbrains.internship.warehouse.services.FundService;
+import com.geekbrains.internship.warehouse.services.ProductsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

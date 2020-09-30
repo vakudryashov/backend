@@ -1,4 +1,4 @@
-package com.geekbrains.july.warehouse.entities.dtos;
+package com.geekbrains.internship.warehouse.entities.dtos;
 
 import lombok.Data;
 

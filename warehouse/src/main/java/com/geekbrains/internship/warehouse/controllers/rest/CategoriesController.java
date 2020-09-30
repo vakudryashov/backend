@@ -1,18 +1,14 @@
-package com.geekbrains.july.warehouse.controllers.rest;
+package com.geekbrains.internship.warehouse.controllers.rest;
 
-import com.geekbrains.july.warehouse.entities.Category;
-import com.geekbrains.july.warehouse.entities.Product;
-import com.geekbrains.july.warehouse.entities.dtos.ErrorDto;
-import com.geekbrains.july.warehouse.entities.dtos.ProductDto;
-import com.geekbrains.july.warehouse.exceptions.CustomException;
-import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
-import com.geekbrains.july.warehouse.services.CategoriesService;
-import com.geekbrains.july.warehouse.services.ProductsService;
+import com.geekbrains.internship.warehouse.entities.Category;
+import com.geekbrains.internship.warehouse.entities.dtos.ErrorDto;
+import com.geekbrains.internship.warehouse.exceptions.CustomException;
+import com.geekbrains.internship.warehouse.exceptions.ProductNotFoundException;
+import com.geekbrains.internship.warehouse.services.CategoriesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

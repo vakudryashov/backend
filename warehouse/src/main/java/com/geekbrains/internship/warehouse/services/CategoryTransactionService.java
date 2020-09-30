@@ -1,7 +1,7 @@
-package com.geekbrains.july.warehouse.services;
+package com.geekbrains.internship.warehouse.services;
 
-import com.geekbrains.july.warehouse.entities.CategoryTransaction;
-import com.geekbrains.july.warehouse.repositories.CategoryTransactionRepository;
+import com.geekbrains.internship.warehouse.entities.CategoryTransaction;
+import com.geekbrains.internship.warehouse.repositories.CategoryTransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
