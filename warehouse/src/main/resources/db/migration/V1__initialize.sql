@@ -9,7 +9,7 @@ create table roles ( id bigint NOT NULL AUTO_INCREMENT, name VARCHAR(50) not nul
 insert into roles (name) values('ROLE_CUSTOMER'), ('ROLE_MANAGER'), ('ROLE_ADMIN');
 
 -- таблица товаров
-create table products (id bigint NOT NULL AUTO_INCREMENT, title varchar(255), primary key(id));
+create table products (id bigint NOT NULL AUTO_INCREMENT, title varchar(255), description varchar(1000), primary key(id));
 insert into products (title) values ('Шляпа'), ('Панама'), ('Очки');
 
 -- таблица категорий товаров
@@ -17,7 +17,7 @@ create table categories (id bigint NOT NULL AUTO_INCREMENT, title varchar(255) N
 insert into categories (title) values ('Головные уборы'), ('Оптика');
 
 -- таблица единиц измерения количества товаром
-CREATE TABLE units (id bigint NOT NULL AUTO_INCREMENT, title VARCHAR(40) NOT NULL UNIQUE, description varchar(255), PRIMARY KEY (id));
+CREATE TABLE units (id bigint NOT NULL AUTO_INCREMENT, title VARCHAR(40) NOT NULL UNIQUE, description varchar(1000), PRIMARY KEY (id));
 insert into units (title, description) values ('шт', 'штуки');
 
 -- таблица контрагентов
@@ -75,11 +75,11 @@ foreign key (product_id) references products(id), foreign key (image_id) referen
 -- остатки товаров на складе
 create view view__funds as
 select
-    prod.id as id,
-    sum(trans.quantity) as quantity
-from products prod
+    prod.id,
+    ifnull(sum(quantity),0) quantity
+from link__transactions_products l_tp
 join product_transactions trans on 1 = 1
-join link__transactions_products l_tp on 1 = 1
+right join products prod on 1 = 1
     and l_tp.product_id = prod.id
     and l_tp.transaction_id = trans.id
 join units on 1 = 1
