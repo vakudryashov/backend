@@ -24,7 +24,7 @@ import java.util.Map;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/v1/transactions")
-@Api("Set of endpoints for CRUD operations for Products Transaction")
+@Api("Set of endpoints for CRUD operations for ProductTransaction")
 public class ProductTransactionsController {
     private ProductTransactionService productTransactionService;
     private ProductsService productsService;

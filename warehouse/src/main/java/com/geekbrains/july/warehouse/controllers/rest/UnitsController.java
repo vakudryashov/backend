@@ -16,13 +16,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/units")
-@Api("Set of endpoints for CRUD operations for Posting")
+@Api("Set of endpoints for CRUD operations for Unit")
 public class UnitsController {
     @Autowired
     private UnitService unitService;
 
     @GetMapping(produces = "application/json")
-    @ApiOperation("Returns list of all s")
+    @ApiOperation("Returns list of all units")
     public List<Unit> getAllUnits() {
         return unitService.findAll();
     }

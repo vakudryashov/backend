@@ -5,6 +5,7 @@ import com.geekbrains.july.warehouse.entities.dtos.ErrorDto;
 import com.geekbrains.july.warehouse.entities.dtos.JwtRequest;
 import com.geekbrains.july.warehouse.entities.dtos.JwtResponse;
 import com.geekbrains.july.warehouse.exceptions.CustomException;
+import io.swagger.annotations.Api;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Api("Set of endpoints for CRUD operations for authentication")
 public class AuthController {
     private final UserDetailsService userDetailsService;
     private final JwtTokenUtil jwtTokenUtil;

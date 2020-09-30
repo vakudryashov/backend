@@ -35,4 +35,9 @@ public class Product {
         this.id = id;
         this.title = title;
     }
+    @ManyToOne
+    @JoinTable(name = "link__products_images",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "image_id"))
+    private Image image;
 }

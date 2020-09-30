@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
-@Api("Set of endpoints for CRUD operations for Products")
+@Api("Set of endpoints for CRUD operations for Product")
 public class ProductsController {
     private ProductsService productsService;
     private UsersService usersService;
@@ -56,7 +56,7 @@ public class ProductsController {
         return productsService.findById(id);
     }
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
+    @PostMapping
     @ApiOperation("Creates a new product")
     public List<Product> saveNewProduct(@RequestBody Product product) {
         productsService.saveOrUpdate(product);

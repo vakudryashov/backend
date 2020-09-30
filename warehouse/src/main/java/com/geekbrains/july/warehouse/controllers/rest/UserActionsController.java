@@ -3,6 +3,7 @@ package com.geekbrains.july.warehouse.controllers.rest;
 import com.geekbrains.july.warehouse.entities.Unit;
 import com.geekbrains.july.warehouse.entities.UserAction;
 import com.geekbrains.july.warehouse.services.UserActionService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/actions")
+@Api("Set of endpoints for CRUD operations for UserAction")
 public class UserActionsController {
     @Autowired
     private UserActionService userActionService;

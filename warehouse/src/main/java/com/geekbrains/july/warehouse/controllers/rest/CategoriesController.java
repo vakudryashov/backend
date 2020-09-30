@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/categories")
-@Api("Set of endpoints for CRUD operations for Products")
+@Api("Set of endpoints for CRUD operations for Category")
 public class CategoriesController {
     private CategoriesService categoriesService;
 

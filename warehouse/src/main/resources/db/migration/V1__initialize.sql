@@ -33,6 +33,9 @@ insert into product_transactions (transaction_date, quantity, comment) values (n
 create table user_actions (id bigint NOT NULL AUTO_INCREMENT, type varchar(25), product_id bigint not null,
 product_name varchar(25), data date, author varchar(255), primary key(id));
 
+-- таблица изображений
+create table images (id bigint NOT NULL AUTO_INCREMENT, title varchar(255), image MEDIUMTEXT, primary key(id));
+
 -- Вспомогательные таблицы для организации связей между сущностями
 -- связь пользователь - роль
 create table link__users_roles ( user_id BIGINT NOT NULL, role_id BIGINT NOT NULL, primary key (user_id, role_id),
@@ -63,6 +66,10 @@ insert into link__transactions_contractors values (1, 1),(2,2);
 create table link__transactions_users (transaction_id bigint not null, user_id bigint not null, primary key(transaction_id, user_id),
 foreign key (transaction_id) references product_transactions(id), foreign key (user_id) references users(id));
 insert into link__transactions_users values (1, 1),(2,1);
+
+-- связь товар - изображение
+create table link__products_images (product_id bigint not null, image_id bigint not null, primary key(product_id, image_id),
+foreign key (product_id) references products(id), foreign key (image_id) references images(id));
 
 -- представления (view) данных
 -- остатки товаров на складе
