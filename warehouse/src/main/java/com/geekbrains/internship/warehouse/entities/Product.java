@@ -40,4 +40,6 @@ public class Product {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "image_id"))
     private Image image;
+
+    String description;
 }
