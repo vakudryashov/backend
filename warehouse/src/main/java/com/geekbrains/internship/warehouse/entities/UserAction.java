@@ -1,4 +1,4 @@
-package com.geekbrains.july.warehouse.entities;
+package com.geekbrains.internship.warehouse.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

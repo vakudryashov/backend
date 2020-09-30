@@ -1,4 +1,4 @@
-package com.geekbrains.july.warehouse.exceptions;
+package com.geekbrains.internship.warehouse.exceptions;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;

@@ -1,21 +1,9 @@
-package com.geekbrains.july.warehouse.controllers.rest;
+package com.geekbrains.internship.warehouse.controllers.rest;
 
-import com.geekbrains.july.warehouse.entities.Product;
-import com.geekbrains.july.warehouse.entities.DataProductHistory;
-import com.geekbrains.july.warehouse.entities.dtos.ProductDto;
-import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
-import com.geekbrains.july.warehouse.repositories.DataProductHistoryRepository;
-import com.geekbrains.july.warehouse.services.DataProductHistoryService;
-import com.geekbrains.july.warehouse.services.ProductsService;
+import com.geekbrains.internship.warehouse.services.DataProductHistoryService;
+import com.geekbrains.internship.warehouse.services.ProductsService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/operations")

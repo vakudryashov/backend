@@ -1,7 +1,7 @@
-package com.geekbrains.july.warehouse.repositories;
+package com.geekbrains.internship.warehouse.repositories;
 
-import com.geekbrains.july.warehouse.entities.Product;
-import com.geekbrains.july.warehouse.entities.dtos.ProductDto;
+import com.geekbrains.internship.warehouse.entities.Product;
+import com.geekbrains.internship.warehouse.entities.dtos.ProductDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

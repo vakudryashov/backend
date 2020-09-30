@@ -1,10 +1,10 @@
-package com.geekbrains.july.warehouse.controllers.rest;
+package com.geekbrains.internship.warehouse.controllers.rest;
 
-import com.geekbrains.july.warehouse.configs.JwtTokenUtil;
-import com.geekbrains.july.warehouse.entities.dtos.ErrorDto;
-import com.geekbrains.july.warehouse.entities.dtos.JwtRequest;
-import com.geekbrains.july.warehouse.entities.dtos.JwtResponse;
-import com.geekbrains.july.warehouse.exceptions.CustomException;
+import com.geekbrains.internship.warehouse.configs.JwtTokenUtil;
+import com.geekbrains.internship.warehouse.entities.dtos.ErrorDto;
+import com.geekbrains.internship.warehouse.entities.dtos.JwtRequest;
+import com.geekbrains.internship.warehouse.entities.dtos.JwtResponse;
+import com.geekbrains.internship.warehouse.exceptions.CustomException;
 import io.swagger.annotations.Api;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

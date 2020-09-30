@@ -1,7 +1,7 @@
-package com.geekbrains.july.warehouse.repositories.specifications;
+package com.geekbrains.internship.warehouse.repositories.specifications;
 
-import com.geekbrains.july.warehouse.entities.Category;
-import com.geekbrains.july.warehouse.entities.Product;
+import com.geekbrains.internship.warehouse.entities.Category;
+import com.geekbrains.internship.warehouse.entities.Product;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ProductSpecifications {

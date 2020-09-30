@@ -1,8 +1,7 @@
-package com.geekbrains.july.warehouse.controllers.rest;
+package com.geekbrains.internship.warehouse.controllers.rest;
 
-import com.geekbrains.july.warehouse.entities.Image;
-import com.geekbrains.july.warehouse.entities.Product;
-import com.geekbrains.july.warehouse.services.ImageService;
+import com.geekbrains.internship.warehouse.entities.Image;
+import com.geekbrains.internship.warehouse.services.ImageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

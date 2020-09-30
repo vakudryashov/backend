@@ -1,7 +1,7 @@
-package com.geekbrains.july.warehouse.configs.filter;
+package com.geekbrains.internship.warehouse.configs.filter;
 
-import com.geekbrains.july.warehouse.configs.JwtTokenUtil;
-import com.geekbrains.july.warehouse.exceptions.CustomException;
+import com.geekbrains.internship.warehouse.exceptions.CustomException;
+import com.geekbrains.internship.warehouse.configs.JwtTokenUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

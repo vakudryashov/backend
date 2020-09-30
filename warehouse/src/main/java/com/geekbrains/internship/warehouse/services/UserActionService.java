@@ -1,10 +1,8 @@
-package com.geekbrains.july.warehouse.services;
+package com.geekbrains.internship.warehouse.services;
 
-import com.geekbrains.july.warehouse.entities.ProductTransaction;
-import com.geekbrains.july.warehouse.entities.Unit;
-import com.geekbrains.july.warehouse.entities.UserAction;
-import com.geekbrains.july.warehouse.exceptions.CustomException;
-import com.geekbrains.july.warehouse.repositories.UserActionRepository;
+import com.geekbrains.internship.warehouse.exceptions.CustomException;
+import com.geekbrains.internship.warehouse.entities.UserAction;
+import com.geekbrains.internship.warehouse.repositories.UserActionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

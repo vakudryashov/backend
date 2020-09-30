@@ -1,17 +1,12 @@
-package com.geekbrains.july.warehouse.services;
+package com.geekbrains.internship.warehouse.services;
 
-import com.geekbrains.july.warehouse.entities.Provider;
-import com.geekbrains.july.warehouse.exceptions.ProductNotFoundException;
-import com.geekbrains.july.warehouse.repositories.CategoriesRepository;
-import com.geekbrains.july.warehouse.repositories.ProviderRepository;
+import com.geekbrains.internship.warehouse.exceptions.ProductNotFoundException;
+import com.geekbrains.internship.warehouse.repositories.ProviderRepository;
+import com.geekbrains.internship.warehouse.entities.Provider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ProviderServiceImpl implements ProviderService{

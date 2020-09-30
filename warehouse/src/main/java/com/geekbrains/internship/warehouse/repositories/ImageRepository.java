@@ -1,7 +1,7 @@
-package com.geekbrains.july.warehouse.repositories;
+package com.geekbrains.internship.warehouse.repositories;
 
 
-import com.geekbrains.july.warehouse.entities.Image;
+import com.geekbrains.internship.warehouse.entities.Image;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ImageRepository extends JpaRepository<Image, Long> {

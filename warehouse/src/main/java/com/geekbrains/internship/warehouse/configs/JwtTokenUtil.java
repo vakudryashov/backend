@@ -1,4 +1,4 @@
-package com.geekbrains.july.warehouse.configs;
+package com.geekbrains.internship.warehouse.configs;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

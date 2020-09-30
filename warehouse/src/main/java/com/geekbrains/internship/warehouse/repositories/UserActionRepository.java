@@ -1,7 +1,6 @@
-package com.geekbrains.july.warehouse.repositories;
+package com.geekbrains.internship.warehouse.repositories;
 
-import com.geekbrains.july.warehouse.entities.ProductTransaction;
-import com.geekbrains.july.warehouse.entities.UserAction;
+import com.geekbrains.internship.warehouse.entities.UserAction;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Date;
