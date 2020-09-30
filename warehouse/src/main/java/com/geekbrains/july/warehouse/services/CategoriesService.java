@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,12 +31,19 @@ public class CategoriesService {
 
     public Category saveOrUpdate(Category category) {
         try {
-            return categoriesRepository.save(category);
+            Category savedCategory = categoriesRepository.findByTitle(category.getTitle());
+            return  savedCategory == null ? categoriesRepository.save(category) : savedCategory;
         }catch(RuntimeException e){
             throw new CustomException("Не удалось сохранить изменения: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
+    public List<Category> saveOrUpdate(List<Category> categories) {
+        List<Category> list = new ArrayList<>();
+        for (Category category : categories) {
+            list.add(saveOrUpdate(category));
+        }
+        return list;
+    }
     public Category findById(Long id) {
         return categoriesRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Can't found category with id = " + id));
     }

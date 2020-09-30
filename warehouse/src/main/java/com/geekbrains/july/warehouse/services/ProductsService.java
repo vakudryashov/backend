@@ -17,37 +17,25 @@ public class ProductsService {
     private ProductsRepository productsRepository;
     private CategoriesService categoriesService;
     private UnitService unitService;
-    private UsersService usersService;
-    private UserActionService userActionService;
+    private ImageService imageService;
 
     @Autowired
     public void setProductsRepository(
             ProductsRepository productsRepository,
             CategoriesService categoriesService,
             UnitService unitService,
-            UsersService usersService,
-            UserActionService userActionService) {
+            ImageService imageService) {
         this.productsRepository = productsRepository;
         this.categoriesService = categoriesService;
         this.unitService = unitService;
-        this.usersService = usersService;
-        this.userActionService = userActionService;
+        this.imageService = imageService;
     }
 
     public Product saveOrUpdate(Product product) {
-        Unit unit = product.getUnit();
+        product.setCategories(categoriesService.saveOrUpdate(product.getCategories()));
         product.setUnit(unitService.saveOrUpdate(product.getUnit()));
-        boolean isEditable = productsRepository.existsById(product.getId());
-        Product savedProduct = productsRepository.save(product);
-
-//        UserAction userAction = new UserAction(
-//                isEditable ? "Edit" : "Create",
-//                new Date(),
-//                usersService.findLoggedInUser().get(),
-//                savedProduct
-//        );
-//        userActionService.saveOrUpdate(userAction);
-        return savedProduct;
+        product.setImage(imageService.saveOrUpdate(product.getImage()));
+        return productsRepository.save(product);
     }
 
     public Product findById(Long id) {

@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/contractors")
-@Api("Set of endpoints for CRUD operations for Contractors")
+@Api("Set of endpoints for CRUD operations for Contractor")
 public class ContractorController {
     @Autowired
     private ContractorService contractorService;

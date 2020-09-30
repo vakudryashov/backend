@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/funds")
-@Api("Set of endpoints for CRUD operations for Posting")
+@Api("Set of endpoints for CRUD operations for Fund")
 public class FundsController {
     @Autowired
     private FundService fundService;
