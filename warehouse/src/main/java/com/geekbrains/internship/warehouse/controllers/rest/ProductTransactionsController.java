@@ -3,6 +3,7 @@ package com.geekbrains.internship.warehouse.controllers.rest;
 import com.geekbrains.internship.warehouse.entities.Product;
 import com.geekbrains.internship.warehouse.entities.ProductTransaction;
 import com.geekbrains.internship.warehouse.entities.UserAction;
+import com.geekbrains.internship.warehouse.entities.dtos.ErrorDto;
 import com.geekbrains.internship.warehouse.exceptions.CustomException;
 import com.geekbrains.internship.warehouse.exceptions.ProductNotFoundException;
 import com.geekbrains.internship.warehouse.services.UserActionService;
@@ -89,8 +90,8 @@ public class ProductTransactionsController {
     }
 
     @ExceptionHandler
-    public ResponseEntity<?> handleException(ProductNotFoundException exc) {
-        return new ResponseEntity<>(exc.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> handleException(CustomException exception){
+        return new ResponseEntity<>(new ErrorDto(exception.getMessage()),exception.getStatus());
     }
 }
 
