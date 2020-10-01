@@ -1,10 +1,12 @@
 package com.geekbrains.internship.warehouse.controllers.rest;
 
 import com.geekbrains.internship.warehouse.entities.Contractor;
+import com.geekbrains.internship.warehouse.entities.Product;
 import com.geekbrains.internship.warehouse.entities.dtos.ErrorDto;
 import com.geekbrains.internship.warehouse.exceptions.CustomException;
 import com.geekbrains.internship.warehouse.exceptions.ProductNotFoundException;
 import com.geekbrains.internship.warehouse.services.ContractorService;
+import com.geekbrains.internship.warehouse.services.ProductsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +20,25 @@ import java.util.List;
 @RequestMapping("/api/v1/contractors")
 @Api("Set of endpoints for CRUD operations for Contractor")
 public class ContractorController {
-    @Autowired
     private ContractorService contractorService;
+    private ProductsService productsService;
+    @Autowired
+    public ContractorController(ContractorService contractorService, ProductsService productsService){
+        this.contractorService = contractorService;
+        this.productsService = productsService;
+    }
 
-    @GetMapping(produces = "application/json")
+
+    @GetMapping
     @ApiOperation("Returns list of all contractors")
     public List<Contractor> getAllContractors() {
         return contractorService.findAll();
+    }
+
+    @GetMapping("/providers/{productId}")
+    @ApiOperation("Returns list of providers by product.id")
+    public List<Contractor> getProvidersByProduct(@PathVariable Long productId) {
+        return contractorService.getProvidersByProduct(productsService.findById(productId));
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
@@ -51,6 +65,7 @@ public class ContractorController {
         contractorService.saveOrUpdate(contractor);
         return contractorService.findAll();
     }
+
     @ExceptionHandler
     public ResponseEntity<?> handleException(CustomException exception){
         return new ResponseEntity<>(new ErrorDto(exception.getMessage()),exception.getStatus());
