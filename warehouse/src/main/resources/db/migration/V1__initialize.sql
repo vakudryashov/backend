@@ -31,7 +31,7 @@ insert into product_transactions (transaction_date, quantity, comment) values (n
 
 -- таблица истории действий пользователя
 create table user_actions (id bigint NOT NULL AUTO_INCREMENT, type varchar(25), product_id bigint not null,
-product_name varchar(25), data date, author varchar(255), primary key(id));
+product_name varchar(25), data DATETIME, author varchar(255), primary key(id));
 
 -- таблица изображений
 create table images (id bigint NOT NULL AUTO_INCREMENT, title varchar(255), image MEDIUMTEXT, primary key(id));

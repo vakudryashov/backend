@@ -26,7 +26,6 @@ public class UserAction {
     private String productName;
 
     @Column(name = "data")
-    @Temporal(TemporalType.DATE)
     private Date data;
 
     @Column(name = "author")

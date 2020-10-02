@@ -89,6 +89,13 @@ public class ProductTransactionsController {
         return productTransactionService.getShipmentTransactions();
     }
 
+    @PutMapping("/shipment")
+    @ApiOperation("Edit a shipment transaction")
+    public List<ProductTransaction> editShipmentTransaction(@RequestBody ProductTransaction productTransaction) {
+        productTransactionService.saveOrUpdate(productTransaction);
+        return productTransactionService.getShipmentTransactions();
+    }
+
     @ExceptionHandler
     public ResponseEntity<?> handleException(CustomException exception){
         return new ResponseEntity<>(new ErrorDto(exception.getMessage()),exception.getStatus());

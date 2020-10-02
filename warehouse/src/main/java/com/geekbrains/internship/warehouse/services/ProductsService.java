@@ -35,7 +35,9 @@ public class ProductsService {
     public Product saveOrUpdate(Product product) {
         product.setCategories(categoriesService.saveOrUpdate(product.getCategories()));
         product.setUnit(unitService.saveOrUpdate(product.getUnit()));
-        product.setImage(imageService.saveOrUpdate(product.getImage()));
+        if (product.getImage() != null) {
+            product.setImage(imageService.saveOrUpdate(product.getImage()));
+        }
         return productsRepository.save(product);
     }
 

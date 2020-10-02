@@ -21,6 +21,7 @@ public class UserActionService {
 
     public UserAction saveOrUpdate(UserAction userAction) {
         try {
+            userAction.setData(new Date());
             return userActionRepository.save(userAction);
         }catch(Exception e){
             throw new CustomException(e.getMessage(), HttpStatus.BAD_REQUEST);
