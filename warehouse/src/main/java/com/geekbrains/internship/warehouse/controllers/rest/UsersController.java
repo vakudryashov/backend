@@ -1,5 +1,6 @@
 package com.geekbrains.internship.warehouse.controllers.rest;
 
+import com.geekbrains.internship.warehouse.entities.DeletedUser;
 import com.geekbrains.internship.warehouse.entities.User;
 import com.geekbrains.internship.warehouse.services.UsersService;
 import io.swagger.annotations.Api;
@@ -59,9 +60,9 @@ public class UsersController {
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) {
-        final boolean deleted = usersService.delete(id);
+    @DeleteMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> delete(@PathVariable(name = "id") Long id, @RequestBody DeletedUser deletedUser) {
+        final boolean deleted = usersService.delete(id, deletedUser);
 
         return deleted
                 ? new ResponseEntity<>(HttpStatus.OK)

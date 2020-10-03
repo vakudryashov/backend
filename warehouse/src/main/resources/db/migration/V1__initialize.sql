@@ -2,6 +2,8 @@
 create table users ( id bigint NOT NULL AUTO_INCREMENT, login VARCHAR(50) not null unique, password VARCHAR(80) not null, firstname VARCHAR(50), lastname VARCHAR(50), phone VARCHAR(30), email VARCHAR(50), PRIMARY KEY (id) );
 insert into users (login,password, firstname, lastname, phone, email)
 values ('admin', '$2a$10$iIngXqEsF7aTmZ4IvPZs/enNAba47.OOq5OlqWpQM3JGdlrPCuHTS','Иван', 'Иванов', '+7 (987) 654-32-10', 'admin@example.com');
+insert into users (login,password, firstname, lastname, phone, email)
+values ('in', '$2a$10$iIngXqEsF7aTmZ4IvPZs/enNAba47.OOq5OlqWpQM3JGdlrPCuHTS','Иван', 'Иванов', '+7 (987) 654-32-10', 'admin@example.com');
 -- пароль: admin
 
 -- таблица ролей пользователя приложения
@@ -36,7 +38,16 @@ product_name varchar(25), data DATETIME, author varchar(255), primary key(id));
 -- таблица изображений
 create table images (id bigint NOT NULL AUTO_INCREMENT, title varchar(255), image MEDIUMTEXT, primary key(id));
 
+-- таблица удаленных пользователей
+create table deleted_users (id bigint NOT NULL AUTO_INCREMENT, primary key(id));
+--insert into deleted_users (id) values (1);
+
 -- Вспомогательные таблицы для организации связей между сущностями
+-- связь пользователь - удаленный пользователь
+create table link__deleted_users ( deleted_user_id BIGINT NOT NULL, user_id BIGINT NOT NULL, primary key (deleted_user_id, user_id),
+FOREIGN KEY (deleted_user_id) REFERENCES deleted_users (id), FOREIGN KEY (user_id) REFERENCES users (id) );
+--insert into link__deleted_users (deleted_user_id, user_id) values (1, 2);
+
 -- связь пользователь - роль
 create table link__users_roles ( user_id BIGINT NOT NULL, role_id BIGINT NOT NULL, primary key (user_id, role_id),
 FOREIGN KEY (user_id) REFERENCES users (id), FOREIGN KEY (role_id) REFERENCES roles (id) );
