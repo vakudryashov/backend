@@ -1,9 +1,12 @@
 package com.geekbrains.internship.warehouse.services;
 
+import com.geekbrains.internship.warehouse.entities.DeletedUser;
+import com.geekbrains.internship.warehouse.entities.Product;
 import com.geekbrains.internship.warehouse.entities.Role;
 import com.geekbrains.internship.warehouse.entities.User;
 import com.geekbrains.internship.warehouse.exceptions.CustomException;
 import com.geekbrains.internship.warehouse.exceptions.ProductNotFoundException;
+import com.geekbrains.internship.warehouse.repositories.DeletedUsersRepository;
 import com.geekbrains.internship.warehouse.repositories.RolesRepository;
 import com.geekbrains.internship.warehouse.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +29,16 @@ import java.util.stream.Collectors;
 public class UsersService implements UserDetailsService {
     private UsersRepository usersRepository;
     private RolesRepository rolesRepository;
+    private DeletedUsersRepository deletedUsersRepository;
 
     @Autowired
     public void setUsersRepository(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
+    }
+
+    @Autowired
+    public void setDeletedUsersRepository(DeletedUsersRepository deletedUsersRepository) {
+        this.deletedUsersRepository = deletedUsersRepository;
     }
 
     @Autowired
@@ -81,7 +90,7 @@ public class UsersService implements UserDetailsService {
     }
 
     public void save(User user) {
-        user.setPassword(pwdEncoder.encode(user.getPassword()));
+//        user.setPassword(pwdEncoder.encode(user.getPassword()));
         usersRepository.save(user);
     }
 
@@ -104,6 +113,7 @@ public class UsersService implements UserDetailsService {
 
     public boolean update(User user, Long id) {
         if (usersRepository.existsById(id)) {
+            user.setPassword(pwdEncoder.encode(user.getPassword()));
             usersRepository.save(user);
             return true;
         }
@@ -115,9 +125,9 @@ public class UsersService implements UserDetailsService {
         usersRepository.delete(user);
     }
 
-    public boolean delete(Long id) {
+    public boolean delete(Long id, DeletedUser deletedUser) {
         if (usersRepository.existsById(id)) {
-            usersRepository.deleteById(id);
+            deletedUsersRepository.save(deletedUser);
             return true;
         }
         return false;
@@ -140,5 +150,9 @@ public class UsersService implements UserDetailsService {
             String fullname = user.getLastname();
             return fullname;
         } else return null;
+    }
+
+    public User findById(Long id) {
+        return usersRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Can't found product with id = " + id));
     }
 }
