@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/contractors")
@@ -37,7 +38,7 @@ public class ContractorController {
 
     @GetMapping("/providers/{productId}")
     @ApiOperation("Returns list of providers by product.id")
-    public List<Contractor> getProvidersByProduct(@PathVariable Long productId) {
+    public Set<Contractor> getProvidersByProduct(@PathVariable Long productId) {
         return contractorService.getProvidersByProduct(productsService.findById(productId));
     }
 

@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ContractorService {
@@ -36,11 +38,11 @@ public class ContractorService {
         return contractorRepository.existsById(id);
     }
 
-    public List<Contractor> getProvidersByProduct(Product product){
-        List<Contractor> list = new ArrayList<>();
+    public Set<Contractor> getProvidersByProduct(Product product){
+        Set<Contractor> providers = new HashSet<>();
         for (ProductTransaction supply :productTransactionService.getSuppliesByProduct(product)) {
-            list.add(supply.getContractor());
+            providers.add(supply.getContractor());
         }
-        return list;
+        return providers;
     }
 }

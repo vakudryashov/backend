@@ -3,12 +3,14 @@ package com.geekbrains.internship.warehouse.services;
 import com.geekbrains.internship.warehouse.entities.Category;
 import com.geekbrains.internship.warehouse.entities.Product;
 import com.geekbrains.internship.warehouse.entities.dtos.ProductDto;
+import com.geekbrains.internship.warehouse.exceptions.CustomException;
 import com.geekbrains.internship.warehouse.exceptions.ProductNotFoundException;
 import com.geekbrains.internship.warehouse.repositories.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -42,7 +44,7 @@ public class ProductsService {
     }
 
     public Product findById(Long id) {
-        return productsRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Can't found product with id = " + id));
+        return productsRepository.findById(id).orElseThrow(() -> new CustomException("Can't found product with id = " + id, HttpStatus.NOT_FOUND));
     }
 
     public Product findByTitle(String title) {
