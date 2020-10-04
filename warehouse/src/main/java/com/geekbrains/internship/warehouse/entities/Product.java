@@ -1,5 +1,6 @@
 package com.geekbrains.internship.warehouse.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

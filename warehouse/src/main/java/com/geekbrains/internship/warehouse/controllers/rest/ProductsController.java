@@ -3,11 +3,11 @@ package com.geekbrains.internship.warehouse.controllers.rest;
 import com.geekbrains.internship.warehouse.entities.Product;
 import com.geekbrains.internship.warehouse.entities.UserAction;
 import com.geekbrains.internship.warehouse.entities.dtos.ErrorDto;
+import com.geekbrains.internship.warehouse.entities.dtos.ProductDto;
 import com.geekbrains.internship.warehouse.exceptions.CustomException;
 import com.geekbrains.internship.warehouse.exceptions.ProductNotFoundException;
-import com.geekbrains.internship.warehouse.services.UserActionService;
-import com.geekbrains.internship.warehouse.entities.dtos.ProductDto;
 import com.geekbrains.internship.warehouse.services.ProductsService;
+import com.geekbrains.internship.warehouse.services.UserActionService;
 import com.geekbrains.internship.warehouse.services.UsersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,7 +27,7 @@ public class ProductsController {
 
     @Autowired
     public ProductsController(ProductsService productsService, UsersService usersService,
-                                  UserActionService userActionService) {
+                              UserActionService userActionService) {
         this.productsService = productsService;
         this.usersService = usersService;
         this.userActionService = userActionService;
@@ -57,12 +57,13 @@ public class ProductsController {
     @PostMapping
     @ApiOperation("Creates a new product")
     public Product saveNewProduct(@RequestBody Product product) {
-        productsService.saveOrUpdate(product);
+        Product newProduct = productsService.saveOrUpdate(product);
 
-        UserAction userAction = new UserAction(null, "CREATE", product.getId(), product.getTitle(),
-                                               usersService.currentUserFullname());
+        UserAction userAction = new UserAction(null, "CREATE", newProduct.getId(), newProduct.getTitle(),
+                usersService.currentUserFullname());
         userActionService.saveOrUpdate(userAction);
-        return productsService.findById(product.getId());
+        return productsService.findById(newProduct.getId());
+
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json")
@@ -80,7 +81,7 @@ public class ProductsController {
     }
 
     @ExceptionHandler
-    public ResponseEntity<?> handleException(CustomException exception){
-        return new ResponseEntity<>(new ErrorDto(exception.getMessage()),exception.getStatus());
+    public ResponseEntity<?> handleException(CustomException exception) {
+        return new ResponseEntity<>(new ErrorDto(exception.getMessage()), exception.getStatus());
     }
 }

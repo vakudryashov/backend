@@ -1,5 +1,6 @@
 package com.geekbrains.internship.warehouse.services;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.geekbrains.internship.warehouse.entities.Category;
 import com.geekbrains.internship.warehouse.entities.Product;
 import com.geekbrains.internship.warehouse.entities.dtos.ProductDto;
@@ -34,6 +35,7 @@ public class ProductsService {
         this.imageService = imageService;
     }
 
+    @JsonIgnoreProperties(value = "id")
     public Product saveOrUpdate(Product product) {
         product.setCategories(categoriesService.saveOrUpdate(product.getCategories()));
         product.setUnit(unitService.saveOrUpdate(product.getUnit()));
