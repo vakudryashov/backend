@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 @Api("Set of endpoints for CRUD operations for User")
 public class UsersController {
     private UsersService usersService;

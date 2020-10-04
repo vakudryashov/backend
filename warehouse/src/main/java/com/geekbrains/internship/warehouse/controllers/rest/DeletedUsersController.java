@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/users/deleted")
+@RequestMapping("/api/v1/users/deleted")
 @Api("Set of endpoints for CRUD operations for User")
 public class DeletedUsersController {
     private DeletedUsersService deletedUsersService;
