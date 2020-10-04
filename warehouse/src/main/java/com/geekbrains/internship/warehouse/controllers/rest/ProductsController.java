@@ -56,18 +56,18 @@ public class ProductsController {
 
     @PostMapping
     @ApiOperation("Creates a new product")
-    public List<Product> saveNewProduct(@RequestBody Product product) {
+    public Product saveNewProduct(@RequestBody Product product) {
         productsService.saveOrUpdate(product);
 
         UserAction userAction = new UserAction(null, "CREATE", product.getId(), product.getTitle(),
                                                usersService.currentUserFullname());
         userActionService.saveOrUpdate(userAction);
-        return productsService.findAll();
+        return productsService.findById(product.getId());
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json")
     @ApiOperation("Modifies an existing product")
-    public List<Product> modifyProduct(@RequestBody Product product) {
+    public Product modifyProduct(@RequestBody Product product) {
         if (product.getId() == null || !productsService.existsById(product.getId())) {
             throw new ProductNotFoundException("Product not found, id: " + product.getId());
         }
@@ -76,7 +76,7 @@ public class ProductsController {
         UserAction userAction = new UserAction(null, "EDIT", product.getId(), product.getTitle(),
                 usersService.currentUserFullname());
         userActionService.saveOrUpdate(userAction);
-        return productsService.findAll();
+        return productsService.findById(product.getId());
     }
 
     @ExceptionHandler
