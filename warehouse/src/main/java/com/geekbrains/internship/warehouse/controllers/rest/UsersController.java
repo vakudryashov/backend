@@ -61,8 +61,8 @@ public class UsersController {
     }
 
     @DeleteMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> delete(@PathVariable(name = "id") Long id, @RequestBody DeletedUser deletedUser) {
-        final boolean deleted = usersService.delete(id, deletedUser);
+    public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) {
+        final boolean deleted = usersService.delete(id);
 
         return deleted
                 ? new ResponseEntity<>(HttpStatus.OK)
