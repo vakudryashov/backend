@@ -50,22 +50,20 @@ public class CategoriesController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Creates a new category")
-    public List<Category> saveNewCategory(@RequestBody Category category) {
+    public Category saveNewCategory(@RequestBody Category category) {
         if (category.getId() != null) {
             category.setId(null);
         }
-        categoriesService.saveOrUpdate(category);
-        return categoriesService.getAllCategories();
+        return categoriesService.saveOrUpdate(category);
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json")
     @ApiOperation("Modifies an existing category")
-    public List<Category> modifyCategory(@RequestBody Category category) {
+    public Category modifyCategory(@RequestBody Category category) {
         if (category.getId() == null || !categoriesService.existsById(category.getId())) {
             throw new ProductNotFoundException("Product not found, id: " + category.getId());
         }
-        categoriesService.saveOrUpdate(category);
-        return categoriesService.getAllCategories();
+        return categoriesService.saveOrUpdate(category);
     }
 
     @ExceptionHandler
