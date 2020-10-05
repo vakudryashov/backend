@@ -57,17 +57,18 @@ public class CategoriesController {
         return categoriesService.saveOrUpdate(category);
     }
 
-    @PutMapping(consumes = "application/json", produces = "application/json")
+    @PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
     @ApiOperation("Modifies an existing category")
-    public Category modifyCategory(@RequestBody Category category) {
-        if (category.getId() == null || !categoriesService.existsById(category.getId())) {
-            throw new ProductNotFoundException("Product not found, id: " + category.getId());
+    public Category modifyCategory(@PathVariable Long id, @RequestBody Category category) {
+        if (id == null || !categoriesService.existsById(id)) {
+            throw new ProductNotFoundException("Product not found, id: " + id);
         }
+        category.setId(id);
         return categoriesService.saveOrUpdate(category);
     }
 
     @ExceptionHandler
-    public ResponseEntity<?> handleException(CustomException exception){
-        return new ResponseEntity<>(new ErrorDto(exception.getMessage()),exception.getStatus());
+    public ResponseEntity<?> handleException(CustomException exception) {
+        return new ResponseEntity<>(new ErrorDto(exception.getMessage()), exception.getStatus());
     }
 }
